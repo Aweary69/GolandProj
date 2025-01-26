@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Store</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #444;
+        }
+        nav a {
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+            text-align: center;
+        }
+        nav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+        .car {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            padding: 20px;
+            width: 200px;
+            text-align: center;
+        }
+        .car img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .car h3 {
+            margin-top: 10px;
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Welcome to Our Car Store</h1>
+</header>
+
+<nav>
+    <a href="#">Home</a>
+    <a href="#">Shop Cars</a>
+    <a href="#">About Us</a>
+    <a href="#">Contact</a>
+</nav>
+
+<div class="container">
+    <div class="car">
+        <img src="car1.jpg" alt="Car 1">
+        <h3>Car Model 1</h3>
+        <p>Price: $30,000</p>
+    </div>
+    <div class="car">
+        <img src="car2.jpg" alt="Car 2">
+        <h3>Car Model 2</h3>
+        <p>Price: $40,000</p>
+    </div>
+    <div class="car">
+        <img src="car3.jpg" alt="Car 3">
+        <h3>Car Model 3</h3>
+        <p>Price: $50,000</p>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2025 Car Store. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
