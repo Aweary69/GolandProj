@@ -1,14 +1,13 @@
-package routes
+package routesGo
 
 import (
+	"CarStore/controllersGO"
 	"github.com/gorilla/mux"
-	"github.com/yourusername/GolandProj/controllers"
 )
 
-// RegisterRoutes sets up the user-related routesforGO
+// RegisterRoutes sets up the user-related routes
 func RegisterRoutes(router *mux.Router) {
-	router.HandleFunc("/register", controllers.RegisterUser).Methods("POST")
-	router.HandleFunc("/login", controllers.LoginUser).Methods("POST")
-	router.HandleFunc("/user/{id}", controllers.GetUser).Methods("GET")
-	router.HandleFunc("/user/profile", controllers.GetUserProfile).Methods("GET")
+	router.HandleFunc("/register", controllersGO.RegisterUser).Methods("POST")
+	router.HandleFunc("/login", controllersGO.LoginUser).Methods("POST")
+	router.HandleFunc("/user/{id}", controllersGO.GetUser).Methods("GET")
 }

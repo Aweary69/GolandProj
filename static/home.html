@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car store</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        header nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+        }
+        header nav a:hover {
+            text-decoration: underline;
+        }
+        .hero {
+            height: 80vh;
+            background: url('https://via.placeholder.com/1500x800') no-repeat center center/cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+        }
+        .hero h1 {
+            font-size: 3rem;
+            margin: 0;
+        }
+        .hero p {
+            font-size: 1.5rem;
+            margin-top: 1rem;
+        }
+        .hero button {
+            background-color: #ff6600;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .hero button:hover {
+            background-color: #e05500;
+        }
+        .services {
+            padding: 2rem;
+            text-align: center;
+        }
+        .services h2 {
+            font-size: 2rem;
+        }
+        .services .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .services .card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        .services .card:hover {
+            transform: translateY(-10px);
+        }
+        .services .card img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="logo">Car Store</div>
+    <nav>
+        <a href="#">Login</a>
+        <a href="#">Sign Up</a>
+        <a href="#">Vehicles</a>
+        <a href="#">Contact</a>
+    </nav>
+</header>
+
+<div class="hero">
+    <div>
+        <h1>Welcome to Car store</h1>
+        <p>Your trusted partner in mobility</p>
+        <button>Explore Now</button>
+    </div>
+</div>
+
+<section class="services">
+    <h2>Our Services</h2>
+    <div class="grid">
+        <div class="card">
+            <img src="https://via.placeholder.com/300x200" alt="Car Sales">
+            <h3>Car Sales</h3>
+            <p>Find the perfect vehicle from our wide selection of top brands.</p>
+        </div>
+        <div class="card">
+            <img src="https://via.placeholder.com/300x200" alt="Maintenance">
+            <h3>Maintenance</h3>
+            <p>Keep your car running smoothly with our expert service team.</p>
+        </div>
+        <div class="card">
+            <img src="https://via.placeholder.com/300x200" alt="Financing">
+            <h3>Financing</h3>
+            <p>Flexible financing options tailored to your needs.</p>
+        </div>
+    </div>
+</section>
+
+<footer>
+    &copy; 2025 Astana Motors. All rights reserved.
+</footer>
+</body>
+</html>

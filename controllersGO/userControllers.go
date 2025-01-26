@@ -1,7 +1,8 @@
-package controllers
+package controllersGO
 
 import (
 	"encoding/json"
+	"github.com/gorilla/mux"
 	"net/http"
 )
 
@@ -60,15 +61,4 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	http.NotFound(w, r)
-}
-
-// GetUserProfile retrieves the profile of the logged-in user (mock example)
-func GetUserProfile(w http.ResponseWriter, r *http.Request) {
-	// Example of returning a static user profile
-	profile := User{
-		ID:       1,
-		Username: "JohnDoe",
-		Email:    "john@example.com",
-	}
-	json.NewEncoder(w).Encode(profile)
 }

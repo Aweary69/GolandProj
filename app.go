@@ -58,17 +58,17 @@ func main() {
 		fmt.Println("Disconnected from MongoDB.")
 	}()
 
-	// Serve static files from the "public" folder
-	fs := http.FileServer(http.Dir("./public"))
-	http.Handle("/public/", http.StripPrefix("/public/", fs))
+	// Serve static files from the "static folder
+	fs := http.FileServer(http.Dir("./static"))
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
-	// Serve login.html at the root endpoint
+	// Serve home.html at the root endpoint
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "./public/login.html")
+		http.ServeFile(w, r, "./static/home.html")
 	})
 
 	// Start the server
-	port := "3000"
+	port := "8000"
 	fmt.Printf("Starting server on port %s...\n", port)
 	if err := http.ListenAndServe(":"+port, nil); err != nil {
 		log.Fatalf("Error starting server: %v", err)
