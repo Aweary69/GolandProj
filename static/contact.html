@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DriveHub</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #000000;
+        }
+        header {
+            background-color: #000000;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-family: "Poppins", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-decoration: none;
+    color: white; /* "Drive" остается белым */
+    display: inline-block;
+    transition: text-shadow 0.3s ease; /* Плавное свечение */
+}
+
+header .logo .highlight {
+    background-color: #ff6600; /* Оранжевый фон */
+    color: black; /* "Hub" черного цвета */
+    padding: 0 5px; /* Отступы */
+    border-radius: 4px; /* Скругление углов */
+    transition: box-shadow 0.3s ease; /* Плавное свечение */
+}
+
+/* Эффект свечения при наведении */
+header .logo:hover {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); /* Белое свечение */
+}
+
+header .logo:hover .highlight {
+    box-shadow: 0 0 15px rgba(255, 102, 0, 0.8); /* Оранжевое свечение */
+}
+
+
+
+        header nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-family: "Poppins", sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+            text-shadow: 3px 3px 15px rgba(255, 255, 255, 0.8);
+            position: relative;
+            padding-bottom: 5px;
+            transition: color 0.3s ease;
+        }
+
+        header nav a::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: #ff6600; /* Цвет линии при наведении */
+            transition: width 0.3s ease, left 0.3s ease;
+        }
+
+        header nav a:hover {
+            color: #ff6600; /* Изменение цвета текста при наведении */
+        }
+
+        header nav a:hover::after {
+            width: 100%;
+            left: 0;
+        }
+
+        .hero {
+            height: 80vh;
+            background-image: url('/static/images/officeofdrivehub3.jpg');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin: 0;
+            font-family: "Poppins", sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+            text-shadow: 3px 3px 15px rgba(255, 255, 255, 0.8);
+        }
+
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-top: 1rem;
+        }
+        .hero button {
+            background-color: #ff6600;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .hero button:hover {
+            background-color: #e05500;
+        }
+
+        .about {
+    text-align: center;
+    padding: 4rem 2rem;
+    background-color: #000000;
+    color: white;
+    font-family: "Poppins", sans-serif;
+}
+
+.about h2 {
+    font-size: 3rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 3px 3px 15px rgba(255, 255, 255, 0.8);
+    margin-bottom: 3rem;
+}
+
+.about-content {
+    max-width: 800px;
+    margin: 0 auto 3rem auto;
+    text-align: left;
+    padding: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.about-content p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #ccc;
+    margin-bottom: 1rem;
+}
+
+.office {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: left;
+    padding: 2rem;
+}
+
+.office h3 {
+    font-size: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+}
+
+.office p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #ccc;
+    margin-bottom: 0.5rem;
+}
+
+.office-img {
+    width: 100%;
+    max-width: 700px;
+    height: auto;
+    display: block;
+    margin: 1.5rem auto;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+        
+
+        footer {
+            background-color: #000000;
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-top: 8rem;
+        }
+
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 2rem;
+        }
+
+        /* Общий стиль колонн */
+        .footer-column {
+            flex: 1;
+            min-width: 180px;
+            text-align: left;
+        }
+
+        .footer-column h3 {
+            font-size: 1rem;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #ff6600;
+        }
+
+        .footer-column ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.2rem;
+        }
+
+        .footer-column ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-column ul li a:hover {
+            color: #ff6600;
+        }
+
+        /* Главная колонка "Autocenters" */
+        .autocenters {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            flex: 2;
+        }
+
+        /* Внутренний блок с тремя колонками (Almaty, Astana, Regions) */
+        .autocenter-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        /* Фиксированный размер для каждой подколонки */
+        .autocenter-wrapper .footer-column {
+            flex: 1;
+            min-width: 180px;
+            max-width: 220px; /* Устанавливаем максимальную ширину */
+        }
+
+        /* Финансовые услуги и DriveHub MC */
+        .financial-drivehub {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            min-width: 200px;
+            max-width: 260px;
+            font-size: 0.8rem;
+        }
+
+        /* Нижняя часть футера */
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 1rem;
+            font-size: 0.9rem;
+            color: #bbb;
+            margin-top: 20px;
+        }
+
+    </style>
+</head>
+<body>
+<header>
+    <a href="/static/home.html" class="logo">
+        Drive<span class="highlight">Hub</span>
+    </a>
+    <nav>
+        <a href="/static/aboutus.html">About Company</a>
+        <a href="/static/production.html">Production</a>
+        <a href="/static/distributors.html">Distributors</a>
+        <a href="/static/news.html">News</a>
+        <a href="https://mycar.kz/cars">Used Cars</a>
+        <a href="/static/contact.html">Contact</a>
+        <a href="/static/financialservices.html">Financial Services</a>
+        <a href="/static/login.html">Login</a>
+        <a href="/static/register.html">Sign Up</a>
+    </nav>
+</header>
+
+<div class="hero">
+    <div>
+        <h1>Our Contact</h1>
+    </div>
+</div>
+
+<section class="about">
+    <h2>About DriveHub</h2>
+
+    <article class="about-content">
+        <img src="/static/images/officeofdrivehub.jpg" alt="DriveHub Office" class="office-img">
+        <p>DriveHub is a forward-thinking automotive company dedicated to enhancing vehicle accessibility and ownership. 
+           With a commitment to innovation, quality, and customer satisfaction, we strive to redefine the driving experience through cutting-edge technology and seamless service.</p>
+
+        <p>Our mission is to make mobility more convenient, efficient, and affordable. From expanding our dealer network to developing sustainable transportation solutions, DriveHub is at the forefront of the automotive industry.</p>
+    </article>
+
+    <div class="office">
+        <h3>Our Office</h3>
+        <img src="/static/images/officeofdrivehub2.jpg" alt="DriveHub Headquarters" class="office-img">
+        <p><strong>Address:</strong> Astana, Mangilik El Avenue, C1</p>
+        <p><strong>Phone:</strong> +7 777 123 4567</p>
+        <p><strong>Email:</strong> office@drivehub.com</p>
+    </div>
+</section>
+
+
+<footer>
+    <hr>
+    <div class="footer-container">
+        <!-- Production -->
+        <div class="footer-column">
+            <h3>Production</h3>
+            <ul>
+                <li><a href="production.html#hyundai-almaty">Hyundai Trans Almaty</a></li>
+                <li><a href="production.html#hyundai-kz">Hyundai Trans Kazakhstan</a></li>
+                <li><a href="production.html#auto-tech">Auto Component Technopark</a></li>
+                <li><a href="production.html#drivehub">DriveHub Manufacturing Kazakhstan</a></li>
+            </ul>
+        </div>
+
+        <!-- Distributors -->
+        <div class="footer-column">
+            <h3>Distributors</h3>
+            <ul>
+                <li><a href="distributors.html#genesis">Genesis</a></li>
+                <li><a href="distributors.html#bmw">BMW</a></li>
+                <li><a href="distributors.html#changan">Changan Auto</a></li>
+                <li><a href="distributors.html#chery">Chery Kazakhstan</a></li>
+                <li><a href="distributors.html#golden-dragon">Golden Dragon</a></li>
+                <li><a href="distributors.html#tank">TANK</a></li>
+                <li><a href="distributors.html#jlr">Jaguar Land Rover Kazakhstan</a></li>
+                <li><a href="distributors.html#subaru">Subaru Kazakhstan</a></li>
+            </ul>
+            
+        </div>
+
+        <!-- Автоцентры (Главная колонка) -->
+        <div class="footer-column autocenters">
+            <h3>Autocenters</h3>
+            <div class="autocenter-wrapper">
+                <div class="footer-column">
+                    <h5>Almaty</h5>
+                    <ul>
+                        <li><a href="/static/autocenters/cheryalfarabi.html">Chery Al-Farabi</a></li>
+                        <li><a href="/static/autocenters/tankalfarabi.html">Haval&Tank Al-Farabi</a></li>
+                        <li><a href="/static/autocenters/cheryalmaty.html">Chery Almaty</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h5>Astana</h5>
+                    <ul>
+                        <li><a href="/static/autocenters/tankhavalnurlyzhol.html">Haval&Tank Nurly Zhol</a></li>
+                        <li><a href="/static/autocenters/hyundainurlyzhol.html">Hyundai Nurly Zhol</a></li>
+                        <li><a href="/static/autocenters/changannurlyzhol.html">Changan Nurly Zhol</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h5>Regions</h5>
+                    <ul>
+                        <li><a href="/static/autocenters/hyundaiqaragandy.html">Hyundai Qaragandy</a></li>
+                        <li><a href="/static/autocenters/hyundaishymcity.html">Hyundai ShymCity</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Financial Services и DriveHub MC -->
+        <div class="financial-drivehub">
+            <div class="footer-column">
+                <h3>Financial Services</h3>
+                <ul>
+                    <li><a href="financialservices.html#leasing">Leasing</a></li>
+                    <li><a href="financialservices.html#opleasing">Operational Leasing</a></li>
+                    <li><a href="financialservices.html#loans">Loans</a></li>
+                    <li><a href="financialservices.html#insurance">Insurance</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>DriveHub MC</h3>
+                <ul>
+                    <li>Astana, Mangilik El Avenue, C1</li>
+                    <li>+7 777 123 4567</li>
+                    <li>office@drivehub.com</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        &copy; 2025 DriveHub. All rights reserved.
+    </div>
+</footer>
+
+</body>
+</html>
