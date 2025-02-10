@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DriveHub</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #000000;
+    }
+    header {
+      background-color: #000000;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      font-family: "Poppins", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-decoration: none;
+      color: white; /* "Drive" остается белым */
+      display: inline-block;
+      transition: text-shadow 0.3s ease; /* Плавное свечение */
+    }
+
+    header .logo .highlight {
+      background-color: #ff6600; /* Оранжевый фон */
+      color: black; /* "Hub" черного цвета */
+      padding: 0 5px; /* Отступы */
+      border-radius: 4px; /* Скругление углов */
+      transition: box-shadow 0.3s ease; /* Плавное свечение */
+    }
+
+    /* Эффект свечения при наведении */
+    header .logo:hover {
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); /* Белое свечение */
+    }
+
+    header .logo:hover .highlight {
+      box-shadow: 0 0 15px rgba(255, 102, 0, 0.8); /* Оранжевое свечение */
+    }
+
+
+
+    header nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 1rem;
+      font-family: "Poppins", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-align: center;
+      text-shadow: 3px 3px 15px rgba(255, 255, 255, 0.8);
+      position: relative;
+      padding-bottom: 5px;
+      transition: color 0.3s ease;
+    }
+
+    header nav a::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background-color: #ff6600; /* Цвет линии при наведении */
+      transition: width 0.3s ease, left 0.3s ease;
+    }
+
+    header nav a:hover {
+      color: #ff6600; /* Изменение цвета текста при наведении */
+    }
+
+    header nav a:hover::after {
+      width: 100%;
+      left: 0;
+    }
+
+    .hero {
+      height: 80vh;
+      background-image: url('/static/images/financialservices.webp');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-align: center;
+      text-shadow: 3px 3px 15px rgba(255, 255, 255, 0.8);
+    }
+
+
+    .hero p {
+      font-size: 1.5rem;
+      margin-top: 1rem;
+    }
+    .hero button {
+      background-color: #ff6600;
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .hero button:hover {
+      background-color: #e05500;
+    }
+
+    .financial-services {
+      text-align: center;
+      padding: 4rem 2rem;
+      background-color: #000000;
+      color: white;
+      font-family: "Poppins", sans-serif;
+    }
+
+    .financial-services h2 {
+      font-size: 3rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 3px 3px 15px rgba(255, 255, 255, 0.8);
+      margin-bottom: 4rem;
+      color: #ffffff;
+    }
+
+    .service-item {
+      max-width: 900px;
+      margin: 0 auto 3rem auto;
+      text-align: left;
+      padding: 2rem;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+    }
+
+    .service-item:last-child {
+      border-bottom: none;
+    }
+
+    .service-item h3 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #ffffff;
+    }
+
+    /* Card Container */
+    .leasing-cards,
+    .loan-stats,
+    .insurance-cards {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    /* Card Styling */
+    .leasing-card,
+    .stat-card,
+    .insurance-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+      padding: 1.8rem;
+      border-radius: 12px;
+      text-align: center;
+      max-width: 300px;
+      width: 100%;
+      border: 2px solid #ffffff99;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Orange Highlight Line */
+    .leasing-card::before,
+    .stat-card::before,
+    .insurance-card::before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 5px;
+      background-color: #ffffff;
+      top: 0;
+      left: 0;
+    }
+
+    /* Hover Effect */
+    .leasing-card:hover,
+    .stat-card:hover,
+    .insurance-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 15px #ffffff;
+    }
+
+    /* Title Inside Cards */
+    .leasing-card h4,
+    .stat-card h4,
+    .insurance-card h4 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+      color: #ffffff;
+    }
+
+    /* Card Text */
+    .leasing-card p,
+    .stat-card p,
+    .insurance-card p {
+      font-size: 1.2rem;
+      color: #ddd;
+    }
+
+    footer {
+      background-color: #000000;
+      color: white;
+      text-align: center;
+      padding: 2rem 1rem;
+      margin-top: 8rem;
+    }
+
+    .footer-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      gap: 2rem;
+    }
+
+    /* Общий стиль колонн */
+    .footer-column {
+      flex: 1;
+      min-width: 180px;
+      text-align: left;
+    }
+
+    .footer-column h3 {
+      font-size: 1rem;
+      margin-bottom: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #ffffff;
+    }
+
+    .footer-column ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-column ul li {
+      margin-bottom: 0.2rem;
+    }
+
+    .footer-column ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 0.8rem;
+      transition: color 0.3s ease;
+    }
+
+    .footer-column ul li a:hover {
+      color: #ffffff;
+    }
+
+    /* Главная колонка "Autocenters" */
+    .autocenters {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      flex: 2;
+    }
+
+    /* Внутренний блок с тремя колонками (Almaty, Astana, Regions) */
+    .autocenter-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    /* Фиксированный размер для каждой подколонки */
+    .autocenter-wrapper .footer-column {
+      flex: 1;
+      min-width: 180px;
+      max-width: 220px; /* Устанавливаем максимальную ширину */
+    }
+
+    /* Финансовые услуги и DriveHub MC */
+    .financial-drivehub {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      min-width: 200px;
+      max-width: 260px;
+      font-size: 0.8rem;
+    }
+
+    /* Нижняя часть футера */
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      padding-top: 1rem;
+      font-size: 0.9rem;
+      color: #ffffff;
+      margin-top: 20px;
+    }
+
+  </style>
+</head>
+<body>
+<header>
+  <a href="/static/home.html" class="logo">
+    Drive<span class="highlight">Hub</span>
+  </a>
+  <nav>
+    <a href="/static/aboutus.html">About Company</a>
+    <a href="/static/production.html">Production</a>
+    <a href="/static/distributors.html">Distributors</a>
+    <a href="/static/news.html">News</a>
+    <a href="https://mycar.kz/cars">Used Cars</a>
+    <a href="/static/contact.html">Contact</a>
+    <a href="/static/financialservices.html">Financial Services</a>
+    <a href="/static/login.html">Login</a>
+    <a href="/static/register.html">Sign Up</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <div>
+    <h1>Financial Services</h1>
+  </div>
+</div>
+
+<section class="financial-services">
+  <h2>Financial Services</h2>
+
+  <article class="service-item">
+    <h3>Leasing</h3>
+    <p>Leasing allows businesses and individuals to use vehicles or equipment without the need for full upfront payments. We offer flexible terms and cost-effective solutions.</p>
+
+    <div class="leasing-cards" id="leasing">
+      <div class="leasing-card">
+        <h4>Financial Leasing</h4>
+        <p><strong>Prepaid expense:</strong> 10%</p>
+        <p><strong>Period:</strong> 37-48 months</p>
+      </div>
+
+      <div class="leasing-card" id="opleasing">
+        <h4>Operational Leasing</h4>
+        <p><strong>Prepaid expense:</strong> 0%</p>
+        <p><strong>Period:</strong> 12-60 months</p>
+      </div>
+    </div>
+  </article>
+
+  <article class="service-item" id="loans">
+    <h3>Loans</h3>
+    <p>Our loan services provide tailored financial solutions with competitive interest rates, allowing individuals and businesses to achieve their goals efficiently.</p>
+
+    <div class="loan-stats">
+      <div class="stat-card">
+        <h4>97%</h4>
+        <p>Loan approval rate for qualified applicants</p>
+      </div>
+      <div class="stat-card">
+        <h4>5.5%</h4>
+        <p>Starting interest rate on auto loans</p>
+      </div>
+      <div class="stat-card">
+        <h4>24-84 months</h4>
+        <p>Flexible repayment periods</p>
+      </div>
+    </div>
+  </article>
+
+  <article class="service-item" id="insurance">
+    <h3>Insurance</h3>
+    <p>Protect your assets and investments with our comprehensive insurance plans. We offer coverage for a variety of risks, ensuring peace of mind.</p>
+
+    <div class="insurance-cards">
+      <div class="insurance-card">
+        <h4>Full Coverage</h4>
+        <p>Complete protection including theft, damage, and liability.</p>
+      </div>
+      <div class="insurance-card">
+        <h4>Third-Party Insurance</h4>
+        <p>Essential liability protection for responsible driving.</p>
+      </div>
+      <div class="insurance-card">
+        <h4>Extended Warranty</h4>
+        <p>Additional coverage for repairs and maintenance beyond factory warranties.</p>
+      </div>
+    </div>
+  </article>
+</section>
+
+
+
+
+<footer>
+  <hr>
+  <div class="footer-container">
+    <!-- Production -->
+    <div class="footer-column">
+      <h3>Production</h3>
+      <ul>
+        <li><a href="production.html#hyundai-almaty">Hyundai Trans Almaty</a></li>
+        <li><a href="production.html#hyundai-kz">Hyundai Trans Kazakhstan</a></li>
+        <li><a href="production.html#auto-tech">Auto Component Technopark</a></li>
+        <li><a href="production.html#drivehub">DriveHub Manufacturing Kazakhstan</a></li>
+      </ul>
+    </div>
+
+    <!-- Distributors -->
+    <div class="footer-column">
+      <h3>Distributors</h3>
+      <ul>
+        <li><a href="distributors.html#genesis">Genesis</a></li>
+        <li><a href="distributors.html#bmw">BMW</a></li>
+        <li><a href="distributors.html#changan">Changan Auto</a></li>
+        <li><a href="distributors.html#chery">Chery Kazakhstan</a></li>
+        <li><a href="distributors.html#golden-dragon">Golden Dragon</a></li>
+        <li><a href="distributors.html#tank">TANK</a></li>
+        <li><a href="distributors.html#jlr">Jaguar Land Rover Kazakhstan</a></li>
+        <li><a href="distributors.html#subaru">Subaru Kazakhstan</a></li>
+      </ul>
+
+    </div>
+
+    <!-- Автоцентры (Главная колонка) -->
+    <div class="footer-column autocenters">
+      <h3>Autocenters</h3>
+      <div class="autocenter-wrapper">
+        <div class="footer-column">
+          <h5>Almaty</h5>
+          <ul>
+            <li><a href="/static/autocenters/cheryalfarabi.html">Chery Al-Farabi</a></li>
+            <li><a href="/static/autocenters/tankalfarabi.html">Haval&Tank Al-Farabi</a></li>
+            <li><a href="/static/autocenters/cheryalmaty.html">Chery Almaty</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h5>Astana</h5>
+          <ul>
+            <li><a href="/static/autocenters/tankhavalnurlyzhol.html">Haval&Tank Nurly Zhol</a></li>
+            <li><a href="/static/autocenters/hyundainurlyzhol.html">Hyundai Nurly Zhol</a></li>
+            <li><a href="/static/autocenters/changannurlyzhol.html">Changan Nurly Zhol</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h5>Regions</h5>
+          <ul>
+            <li><a href="/static/autocenters/hyundaiqaragandy.html">Hyundai Qaragandy</a></li>
+            <li><a href="/static/autocenters/hyundaishymcity.html">Hyundai ShymCity</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Financial Services и DriveHub MC -->
+    <div class="financial-drivehub">
+      <div class="footer-column">
+        <h3>Financial Services</h3>
+        <ul>
+          <li><a href="financialservices.html#leasing">Leasing</a></li>
+          <li><a href="financialservices.html#opleasing">Operational Leasing</a></li>
+          <li><a href="financialservices.html#loans">Loans</a></li>
+          <li><a href="financialservices.html#insurance">Insurance</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>DriveHub MC</h3>
+        <ul>
+          <li>Astana, Mangilik El Avenue, C1</li>
+          <li>+7 777 123 4567</li>
+          <li>office@drivehub.com</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    &copy; 2025 DriveHub. All rights reserved.
+  </div>
+</footer>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Select all anchor links with a hash (#) in href
+    const links = document.querySelectorAll('a[href^="#"]');
+
+    links.forEach(link => {
+      link.addEventListener("click", function (event) {
+        event.preventDefault(); // Prevent default jump
+
+        const targetId = this.getAttribute("href").substring(1); // Get target ID (without #)
+        const targetElement = document.getElementById(targetId); // Get the target section
+
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 50, // Adjust for fixed headers if needed
+            behavior: "smooth" // Enable smooth scrolling
+          });
+        }
+      });
+    });
+  });
+
+</script>
+</body>
+</html>
