@@ -127,52 +127,125 @@
             background-color: #e05500;
         }
         
-        .profile-container {
-    display: flex;
-    align-items: center;
-    background-color: #000000; /* Темный фон */
-    padding: 1.5rem;
-    border-radius: 10px;
-    max-width: 400px;
-    margin: 2rem auto;
-    color: white;
-    text-align: center;
+        .profile-change-container {
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    background-color: #000000; /* Dark background for the entire section */
+    padding: 2rem; /* Padding around the container */
+    border-radius: 10px; /* Rounded corners */
+    max-width: 500px; /* Maximum width of the container */
+    margin: 2rem auto; /* Center the container */
+    color: white; /* Text color */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
+}
+
+.profile-container {
+    display: flex; /* Use flexbox for layout */
+    align-items: center; /* Center items vertically */
+    background-color: #000000; /* Dark background for profile */
+    padding: 1.5rem; /* Padding around the profile */
+    border-radius: 10px; /* Rounded corners */
+    width: 100%; /* Full width */
+    margin-bottom: 2rem; /* Space below the profile */
 }
 
 .profile-img {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    border: 3px solid #ff6600; /* Оранжевая рамка */
-    box-shadow: 0 0 10px rgba(255, 102, 0, 0.8);
-    margin-right: 1rem;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100px; /* Profile image width */
+    height: 100px; /* Profile image height */
+    border-radius: 50%; /* Circular image */
+    border: 3px solid #ff6600; /* Orange border */
+    box-shadow: 0 0 10px rgba(255, 102, 0, 0.8); /* Shadow effect */
+    margin-right: 1rem; /* Space to the right of the image */
 }
 
-.profile-img:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 20px rgba(255, 102, 0, 1);
-}
 
 .profile-info {
-    flex: 1;
+    flex: 1; /* Take remaining space */
 }
 
 .profile-info h2 {
-    font-family: "Poppins", sans-serif;
-    font-size: 1.5rem;
-    margin: 0;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    text-shadow: 3px 3px 15px rgba(255, 255, 255, 0.8);
+    font-family: "Poppins", sans-serif; /* Font family */
+    font-size: 1.5rem; /* Font size for username */
+    margin: 0; /* Remove default margin */
+    text-transform: uppercase; /* Uppercase text */
+    letter-spacing: 1px; /* Letter spacing */
+    text-shadow: 3px 3px 15px rgba(255, 255, 255, 0.8); /* Text shadow */
 }
 
 .profile-info p {
-    font-size: 0.9rem;
-    color: #ccc;
-    margin: 0.5rem 0;
+    font-size: 0.9rem; /* Font size for email */
+    color: #ccc; /* Light gray color */
+    margin: 0.5rem 0; /* Margin above and below */
 }
 
+.change-password-container {
+    background-color: #000000; /* Dark background for the container */
+    padding: 2rem; /* Padding around the container */
+    border-radius: 10px; /* Rounded corners */
+    width: 100%; /* Full width of the container */
+    color: white; /* Text color */
+    text-align: center; /* Center text */
+}
+
+.change-password-container h3 {
+    font-family: "Poppins", sans-serif; /* Font family */
+    text-transform: uppercase;
+    text-shadow: 3px 3px 15px rgba(255, 255, 255, 0.8);
+    letter-spacing: 3px;
+    font-size: 1.8rem; /* Font size for the heading */
+    margin-bottom: 1.5rem; /* Space below the heading */
+}
+
+.input-box {
+    position: relative; /* Positioning for the icon */
+    margin-bottom: 1.5rem; /* Space below each input box */
+}
+
+.input-box input {
+    width: 100%; /* Full width input */
+    padding: 0.8rem; /* Padding inside the input */
+    border: 2px solid #ff6600; /* Border color */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #000000; /* Dark background for input */
+    color: white; /* Text color */
+    font-size: 1rem; /* Font size */
+    transition: border-color 0.3s ease; /* Transition for border color */
+}
+
+.input-box input:focus {
+    border-color: #ff9900; /* Change border color on focus */
+    outline: none; /* Remove default outline */
+}
+
+.input-box i {
+    position: absolute; /* Positioning for the icon */
+    top: 50%; /* Center vertically */
+    right: -20px; /* Space from the left */
+    transform: translateY(-50%); /* Center the icon */
+    color: #ff6600; /* Icon color */
+}
+
+.btn {
+    background-color: #ff6600; /* Button background color */
+    color: white; /* Button text color */
+    border: none; /* No border */
+    padding: 0.8rem 1.5rem; /* Padding inside the button */
+    font-size: 1rem; /* Font size */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Transition for background color */
+}
+
+.btn:hover {
+    background-color: #e05500; /* Darker shade on hover */
+}
+
+#passwordChangedMessage {
+    margin-top: 1rem; /* Space above the message */
+    color: #66ff66; /* Success message color */
+    font-size: 1rem; /* Font size for the message */
+}
         footer {
             background-color: #000000;
             color: white;
@@ -279,27 +352,30 @@
         <a href="/static/home.html">Logout</a>
     </nav>
 </header>
-<div class="profile-container">
-    <img id="profileImage" class="profile-img" src="/static/images/default-avatar.png" alt="Profile Picture">
-    <div class="profile-info">
-        <h2 id="username">Loading...</h2>
-        <p id="userEmail">Loading...</p>
+<div class="profile-change-container">
+    <div class="profile-container">
+        <img id="profileImage" class="profile-img" src="/static/images/defaultavatar.jpg" alt="Profile Picture">
+        <div class="profile-info">
+            <h2 id="username">Loading...</h2>
+            <p id="userEmail">Loading...</p>
+        </div>
     </div>
-</div>
-<div class="change-password-container">
-    <h3>Change Password</h3>
-    <form id="changePasswordForm">
-        <div class="input-box">
-            <input type="password" name="oldPassword" placeholder="Old Password" required>
-            <i class='bx bx-lock-alt'></i>
-        </div>
-        <div class="input-box">
-            <input type="password" name="newPassword" placeholder="New Password" required>
-            <i class='bx bx-lock-alt'></i>
-        </div>
-        <button type="submit" class="btn">Change Password</button>
-    </form>
-    <p id="passwordChangedMessage" style="display: none;">Password changed successfully!</p>
+
+    <div class="change-password-container">
+        <h3>Change Password</h3>
+        <form id="changePasswordForm">
+            <div class="input-box">
+                <input type="password" name="oldPassword" placeholder="Old Password" required>
+                <i class='bx bx-lock-alt'></i>
+            </div>
+            <div class="input-box">
+                <input type="password" name="newPassword" placeholder="New Password" required>
+                <i class='bx bx-lock-alt'></i>
+            </div>
+            <button type="submit" class="btn">Change Password</button>
+        </form>
+        <p id="passwordChangedMessage" style="display: none;">Password changed successfully!</p>
+    </div>
 </div>
 
 <footer>
