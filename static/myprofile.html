@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #000000;
+        }
+        header {
+            background-color: #000000;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            font-family: "Poppins", sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-decoration: none;
+            color: white; /* "Drive" остается белым */
+            display: inline-block;
+            transition: text-shadow 0.3s ease; /* Плавное свечение */
+        }
+
+        header .logo .highlight {
+            background-color: #ff6600; /* Оранжевый фон */
+            color: black; /* "Hub" черного цвета */
+            padding: 0 5px; /* Отступы */
+            border-radius: 4px; /* Скругление углов */
+            transition: box-shadow 0.3s ease; /* Плавное свечение */
+        }
+
+        /* Эффект свечения при наведении */
+        header .logo:hover {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); /* Белое свечение */
+        }
+
+        header .logo:hover .highlight {
+            box-shadow: 0 0 15px rgba(255, 102, 0, 0.8); /* Оранжевое свечение */
+        }
+
+
+
+        header nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-family: "Poppins", sans-serif;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-align: center;
+            text-shadow: 3px 3px 15px rgba(255, 255, 255, 0.8);
+            position: relative;
+            padding-bottom: 5px;
+            transition: color 0.3s ease;
+        }
+
+        header nav a::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: #ff6600; /* Цвет линии при наведении */
+            transition: width 0.3s ease, left 0.3s ease;
+        }
+
+        header nav a:hover {
+            color: #ff6600; /* Изменение цвета текста при наведении */
+        }
+
+        header nav a:hover::after {
+            width: 100%;
+            left: 0;
+        }
+
+        .hero {
+            height: 80vh;
+            background-image: url('/static/images/car1.jpg');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin: 0;
+            font-family: "Poppins", sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+            text-shadow: 3px 3px 15px rgba(255, 255, 255, 0.8);
+        }
+
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-top: 1rem;
+        }
+        .hero button {
+            background-color: #ff6600;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .hero button:hover {
+            background-color: #e05500;
+        }
+        
+        .profile-container {
+    display: flex;
+    align-items: center;
+    background-color: #000000; /* Темный фон */
+    padding: 1.5rem;
+    border-radius: 10px;
+    max-width: 400px;
+    margin: 2rem auto;
+    color: white;
+    text-align: center;
+}
+
+.profile-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid #ff6600; /* Оранжевая рамка */
+    box-shadow: 0 0 10px rgba(255, 102, 0, 0.8);
+    margin-right: 1rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-img:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(255, 102, 0, 1);
+}
+
+.profile-info {
+    flex: 1;
+}
+
+.profile-info h2 {
+    font-family: "Poppins", sans-serif;
+    font-size: 1.5rem;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 3px 3px 15px rgba(255, 255, 255, 0.8);
+}
+
+.profile-info p {
+    font-size: 0.9rem;
+    color: #ccc;
+    margin: 0.5rem 0;
+}
+
+        footer {
+            background-color: #000000;
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-top: 8rem;
+        }
+
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 2rem;
+        }
+
+        /* Общий стиль колонн */
+        .footer-column {
+            flex: 1;
+            min-width: 180px;
+            text-align: left;
+        }
+
+        .footer-column h3 {
+            font-size: 1rem;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #ff6600;
+        }
+
+        .footer-column ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.2rem;
+        }
+
+        .footer-column ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-column ul li a:hover {
+            color: #ff6600;
+        }
+
+        /* Главная колонка "Autocenters" */
+        .autocenters {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            flex: 2;
+        }
+
+        /* Внутренний блок с тремя колонками (Almaty, Astana, Regions) */
+        .autocenter-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        /* Фиксированный размер для каждой подколонки */
+        .autocenter-wrapper .footer-column {
+            flex: 1;
+            min-width: 180px;
+            max-width: 220px; /* Устанавливаем максимальную ширину */
+        }
+
+        /* Финансовые услуги и DriveHub MC */
+        .financial-drivehub {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            min-width: 200px;
+            max-width: 260px;
+            font-size: 0.8rem;
+        }
+
+        /* Нижняя часть футера */
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 1rem;
+            font-size: 0.9rem;
+            color: #bbb;
+            margin-top: 20px;
+        }
+
+    </style>
+</head>
+<body>
+<header>
+    <a href="/static/loghome.html" class="logo">
+        Drive<span class="highlight">Hub</span>
+    </a>
+    <nav>
+        <a href="/static/cars.html">Cars</a>
+        <a href="/static/home.html">Logout</a>
+    </nav>
+</header>
+<div class="profile-container">
+    <img id="profileImage" class="profile-img" src="/static/images/default-avatar.png" alt="Profile Picture">
+    <div class="profile-info">
+        <h2 id="username">Loading...</h2>
+        <p id="userEmail">Loading...</p>
+    </div>
+</div>
+<div class="change-password-container">
+    <h3>Change Password</h3>
+    <form id="changePasswordForm">
+        <div class="input-box">
+            <input type="password" name="oldPassword" placeholder="Old Password" required>
+            <i class='bx bx-lock-alt'></i>
+        </div>
+        <div class="input-box">
+            <input type="password" name="newPassword" placeholder="New Password" required>
+            <i class='bx bx-lock-alt'></i>
+        </div>
+        <button type="submit" class="btn">Change Password</button>
+    </form>
+    <p id="passwordChangedMessage" style="display: none;">Password changed successfully!</p>
+</div>
+
+<footer>
+    <hr>
+    <div class="footer-container">
+        <!-- Production -->
+        <div class="footer-column">
+            <h3>Production</h3>
+            <ul>
+                <li><a href="production.html#hyundai-almaty">Hyundai Trans Almaty</a></li>
+                <li><a href="production.html#hyundai-kz">Hyundai Trans Kazakhstan</a></li>
+                <li><a href="production.html#auto-tech">Auto Component Technopark</a></li>
+                <li><a href="production.html#drivehub">DriveHub Manufacturing Kazakhstan</a></li>
+            </ul>
+        </div>
+
+        <!-- Distributors -->
+        <div class="footer-column">
+            <h3>Distributors</h3>
+            <ul>
+                <li><a href="distributors.html#genesis">Genesis</a></li>
+                <li><a href="distributors.html#bmw">BMW</a></li>
+                <li><a href="distributors.html#changan">Changan Auto</a></li>
+                <li><a href="distributors.html#chery">Chery Kazakhstan</a></li>
+                <li><a href="distributors.html#golden-dragon">Golden Dragon</a></li>
+                <li><a href="distributors.html#tank">TANK</a></li>
+                <li><a href="distributors.html#jlr">Jaguar Land Rover Kazakhstan</a></li>
+                <li><a href="distributors.html#subaru">Subaru Kazakhstan</a></li>
+            </ul>
+
+        </div>
+
+        <!-- Автоцентры (Главная колонка) -->
+        <div class="footer-column autocenters">
+            <h3>Autocenters</h3>
+            <div class="autocenter-wrapper">
+                <div class="footer-column">
+                    <h5>Almaty</h5>
+                    <ul>
+                        <li><a href="/static/autocenters/cheryalfarabi.html">Chery Al-Farabi</a></li>
+                        <li><a href="/static/autocenters/tankalfarabi.html">Haval&Tank Al-Farabi</a></li>
+                        <li><a href="/static/autocenters/cheryalmaty.html">Chery Almaty</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h5>Astana</h5>
+                    <ul>
+                        <li><a href="/static/autocenters/tankhavalnurlyzhol.html">Haval&Tank Nurly Zhol</a></li>
+                        <li><a href="/static/autocenters/hyundainurlyzhol.html">Hyundai Nurly Zhol</a></li>
+                        <li><a href="/static/autocenters/changannurlyzhol.html">Changan Nurly Zhol</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h5>Regions</h5>
+                    <ul>
+                        <li><a href="/static/autocenters/hyundaiqaragandy.html">Hyundai Qaragandy</a></li>
+                        <li><a href="/static/autocenters/hyundaishymcity.html">Hyundai ShymCity</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Financial Services и DriveHub MC -->
+        <div class="financial-drivehub">
+            <div class="footer-column">
+                <h3>Financial Services</h3>
+                <ul>
+                    <li><a href="financialservices.html#leasing">Leasing</a></li>
+                    <li><a href="financialservices.html#opleasing">Operational Leasing</a></li>
+                    <li><a href="financialservices.html#loans">Loans</a></li>
+                    <li><a href="financialservices.html#insurance">Insurance</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>DriveHub MC</h3>
+                <ul>
+                    <li>Astana, Mangilik El Avenue, C1</li>
+                    <li>+7 777 123 4567</li>
+                    <li>office@drivehub.com</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        &copy; 2025 DriveHub. All rights reserved.
+    </div>
+</footer>
+
+<script>
+    async function fetchUserData() {
+        try {
+            const token = localStorage.getItem("token"); // ✅ Ensure token exists
+
+            if (!token) {
+                console.error("No token found. User is not authenticated.");
+                return;
+            }
+
+            console.log("Using Token:", token); // ✅ Debugging
+
+            const response = await fetch("/api/users/user", {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`, // ✅ Correct format
+                    "Content-Type": "application/json"
+                },
+                credentials: "include"
+            });
+
+            const textResponse = await response.text();
+            console.log("Raw response from server:", textResponse); // ✅ Debugging
+
+            if (!response.ok) {
+                throw new Error(`Server error: ${response.status}`);
+            }
+
+            const user = JSON.parse(textResponse);
+
+            document.getElementById("username").innerText = user.name || "Unknown User";
+            document.getElementById("userEmail").innerText = user.email || "No Email Available";
+        } catch (error) {
+            console.error("Error fetching user data:", error);
+        }
+    }
+
+    fetchUserData();
+
+    document.querySelector("#changePasswordForm").addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const oldPasswordInput = document.querySelector("input[name='oldPassword']");
+        const newPasswordInput = document.querySelector("input[name='newPassword']");
+
+        const oldPassword = oldPasswordInput.value.trim();
+        const newPassword = newPasswordInput.value.trim();
+
+        if (!oldPassword || !newPassword) {
+            alert("Both old and new passwords are required!");
+            return;
+        }
+
+        const token = localStorage.getItem("token"); // ✅ Ensure token exists
+
+        if (!token) {
+            alert("You must be logged in to change your password.");
+            return;
+        }
+
+        try {
+            console.log("🔹 Sending Token:", token); // ✅ Debugging
+
+            const response = await fetch("/api/users/change-password", {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`, // ✅ Ensure correct format
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ oldPassword, newPassword })
+            });
+
+            const textResponse = await response.text(); // ✅ Debugging
+            console.log("Raw response from server:", textResponse);
+
+            if (!response.ok) {
+                throw new Error(`Server error: ${response.status}`);
+            }
+
+            const result = JSON.parse(textResponse);
+            document.getElementById("passwordChangedMessage").style.display = "block";
+            alert("Password changed successfully!");
+            window.location.href = "/static/login.html"; // Redirect to login
+
+        } catch (error) {
+            console.error("Error changing password:", error);
+            alert("Failed to change password. Please try again.");
+        }
+    });
+
+
+
+</script>
+</body>
+</html>
