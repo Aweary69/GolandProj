@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Application Status</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 50px;
+    }
+    .status-container {
+      max-width: 400px;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      display: none; /* Initially hidden */
+    }
+    h1 {
+      color: #333;
+    }
+    #statusMessage {
+      font-size: 18px;
+      margin-top: 10px;
+    }
+    .pending { color: orange; }
+    .accepted { color: green; }
+    .declined { color: red; }
+    .no-application { color: gray; font-size: 18px; }
+    .delete-btn {
+      display: none;
+      margin-top: 15px;
+      padding: 10px;
+      background-color: red;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .delete-btn:hover {
+      background-color: darkred;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Application Status</h1>
+<p id="noApplicationMessage" class="no-application" style="display: none;">You have not submitted an application yet.</p>
+
+<div class="status-container" id="applicationContainer">
+  <p><strong>Full Name:</strong> <span id="fullName">Loading...</span></p>
+  <p><strong>Email:</strong> <span id="email">Loading...</span></p>
+  <p><strong>Car Model:</strong> <span id="carModel">Loading...</span></p>
+  <p><strong>Application Status:</strong> <span id="statusMessage" class="pending">Checking...</span></p>
+  <p id="meetingInfo" style="display: none;"><strong>Meeting Scheduled:</strong> <span id="meetingDate"></span></p>
+
+  <!-- Delete Button (only for declined applications) -->
+  <button id="deleteButton" class="delete-btn" onclick="deleteApplication()">Delete Application</button>
+</div>
+
+<script>
+  let applicationId = null; // Store application ID for deletion
+
+  async function fetchApplicationStatus() {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("❌ You must be logged in to view your application status.");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:8000/api/users/my-application", {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
+      });
+
+      if (response.status === 404) {
+        // If no application exists, show message and hide status container
+        document.getElementById("noApplicationMessage").style.display = "block";
+        document.getElementById("applicationContainer").style.display = "none";
+        return;
+      }
+
+      if (!response.ok) {
+        throw new Error(`Server error: ${response.status}`);
+      }
+
+      const appData = await response.json();
+      console.log("📥 Application Data:", appData); // Debugging
+
+      // Show status container
+      document.getElementById("noApplicationMessage").style.display = "none";
+      document.getElementById("applicationContainer").style.display = "block";
+
+      applicationId = appData.appId; // Store application ID for deletion
+
+      document.getElementById("fullName").textContent = appData.fullName || "Unknown";
+      document.getElementById("email").textContent = appData.email || "Unknown";
+      document.getElementById("carModel").textContent = appData.carModels ? appData.carModels.join(", ") : "Unknown";
+
+      const statusElement = document.getElementById("statusMessage");
+      const deleteButton = document.getElementById("deleteButton");
+
+      if (appData.status === "Pending") {
+        statusElement.textContent = "⏳ Pending...";
+        statusElement.className = "pending";
+        deleteButton.style.display = "none"; // Hide delete button
+        setTimeout(fetchApplicationStatus, 5000); // Refresh every 5 seconds
+      } else if (appData.status === "Accepted") {
+        statusElement.textContent = "✅ Accepted!";
+        statusElement.className = "accepted";
+        document.getElementById("meetingInfo").style.display = "block";
+        document.getElementById("meetingDate").textContent = new Date(appData.meeting).toLocaleString();
+        deleteButton.style.display = "none"; // Hide delete button
+      } else if (appData.status === "Declined") {
+        statusElement.textContent = "❌ Declined";
+        statusElement.className = "declined";
+        deleteButton.style.display = "block"; // Show delete button
+      } else {
+        statusElement.textContent = "⚠️ Unknown Status";
+        statusElement.className = "";
+        deleteButton.style.display = "none"; // Hide delete button
+      }
+
+    } catch (error) {
+      console.error("❌ Error fetching application status:", error);
+      document.getElementById("statusMessage").textContent = "⚠️ Error fetching application status.";
+      document.getElementById("statusMessage").className = "declined";
+    }
+  }
+
+  // 🔹 Delete Application Function
+  async function deleteApplication() {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("⚠️ You must be logged in to delete an application.");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:8000/api/users/delete-application", {
+        method: "DELETE",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
+      });
+
+      const textResponse = await response.text();
+      console.log("📥 Delete Response:", textResponse);
+
+      if (!response.ok) {
+        throw new Error(`Failed to delete application: ${response.status}`);
+      }
+
+      alert("✅ Application deleted successfully.");
+      document.getElementById("applicationContainer").style.display = "none";
+      document.getElementById("noApplicationMessage").style.display = "block";
+
+    } catch (error) {
+      console.error("❌ Error deleting application:", error);
+      alert("⚠️ Failed to delete application.");
+    }
+  }
+
+
+
+  fetchApplicationStatus();
+</script>
+
+</body>
+</html>
