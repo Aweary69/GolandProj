@@ -1,0 +1,859 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Applications</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #000000;
+    }
+    header {
+      background-color: #000000;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      font-family: "Poppins", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-decoration: none;
+      color: white; /* "Drive" остается белым */
+      display: inline-block;
+      transition: text-shadow 0.3s ease; /* Плавное свечение */
+    }
+
+    header .logo .highlight {
+      background-color: #ff6600; /* Оранжевый фон */
+      color: black; /* "Hub" черного цвета */
+      padding: 0 5px; /* Отступы */
+      border-radius: 4px; /* Скругление углов */
+      transition: box-shadow 0.3s ease; /* Плавное свечение */
+    }
+
+    /* Эффект свечения при наведении */
+    header .logo:hover {
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); /* Белое свечение */
+    }
+
+    header .logo:hover .highlight {
+      box-shadow: 0 0 15px rgba(255, 102, 0, 0.8); /* Оранжевое свечение */
+    }
+
+
+
+    header nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 1rem;
+      font-family: "Poppins", sans-serif;
+      text-transform: uppercase;
+      font-size: 14px;
+      letter-spacing: 1px;
+      text-align: center;
+      text-shadow: 3px 3px 15px rgba(255, 255, 255, 0.8);
+      position: relative;
+      padding-bottom: 5px;
+      transition: color 0.3s ease;
+    }
+
+    header nav a::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background-color: #ff6600; /* Цвет линии при наведении */
+      transition: width 0.3s ease, left 0.3s ease;
+    }
+
+    header nav a:hover {
+      color: #ff6600; /* Изменение цвета текста при наведении */
+    }
+
+    header nav a:hover::after {
+      width: 100%;
+      left: 0;
+    }
+
+    .hero {
+      height: 80vh;
+      background-image: url('/static/images/car1.jpg');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-align: center;
+      text-shadow: 3px 3px 15px rgba(255, 255, 255, 0.8);
+    }
+
+
+    .hero p {
+      font-size: 1.5rem;
+      margin-top: 1rem;
+    }
+    .hero button {
+      background-color: #ff6600;
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .hero button:hover {
+      background-color: #e05500;
+    }
+
+
+    .production {
+      padding: 2rem;
+      text-align: center;
+      margin-top: 10rem;
+    }
+
+    .production h2 {
+      font-size: 3rem;
+      color: white;
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-align: center;
+      text-shadow: 3px 3px 15px rgba(255, 255, 255, 0.8);
+      margin-bottom: 6rem;
+    }
+
+    .production .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); /* 2x2 */
+      gap: 2rem;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .production .card {
+      width: 600px; /* Фиксированная ширина */
+      height: 500px; /* Фиксированная высота */
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      overflow: hidden; /* Обрезаем содержимое, если оно выходит за границы */
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end; /* Текст и кнопка внизу */
+      color: white;
+      left: 9%;
+    }
+
+    .production .card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* Заполняем карточку, не искажая изображение */
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1; /* Картинка уходит на задний фон */
+    }
+
+    /* Затемнение для лучшей читаемости текста */
+    .production .card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4); /* Лёгкое затемнение */
+      z-index: 0;
+    }
+
+    /* Контейнер для текста и кнопки */
+    .production .card h3,
+    .production .card p,
+    .production .card button {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Стили кнопки */
+    .production .card button {
+      margin-top: 1rem;
+      background-color: #ffffff;
+      color: #000; /* Черный цвет текста */
+      font-family: "Poppins", sans-serif;
+      text-transform: uppercase;
+      font-weight: bold;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: color 0.3s ease, background 0.3s ease;
+    }
+
+    .production .card button::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background-color: #e05500; /* Цвет линии при наведении */
+      transition: width 0.3s ease, left 0.3s ease;
+    }
+
+    .production .card button:hover {
+      background-color: #e05500;
+      font-family: "Poppins", sans-serif;
+      text-transform: uppercase;
+
+    }
+
+    .production .card button:hover::after {
+      width: 100%;
+      left: 0;
+    }
+
+    .distributors {
+      text-align: center;
+      padding: 4rem 2rem;
+      background-color: #000000;
+      color: white;
+    }
+
+    .distributors h2 {
+      font-size: 3rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 3px 3px 15px rgba(255, 255, 255, 0.8);
+      margin-top: 7rem;
+      margin-bottom: 4rem;
+    }
+
+    .distributors p {
+      font-size: 1rem;
+      margin-bottom: 2rem;
+      text-transform: uppercase;
+      color: white;
+    }
+
+
+
+    .distributors .grid {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .distributors .card {
+      width: 22%; /* Было 250px, теперь % */
+      min-width: 180px;
+      height: 220px;
+      text-align: center;
+    }
+
+    .distributors .card img {
+      width: 70%;
+      height: 70%;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .distributors .card h3 {
+      margin-top: 0.8rem;
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .distributors .card h6 {
+      margin-top: 0.8rem;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    footer {
+      background-color: #000000;
+      color: white;
+      text-align: center;
+      padding: 2rem 1rem;
+      margin-top: 8rem;
+    }
+
+    .footer-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      gap: 2rem;
+    }
+
+    /* Общий стиль колонн */
+    .footer-column {
+      flex: 1;
+      min-width: 180px;
+      text-align: left;
+    }
+
+    .footer-column h3 {
+      font-size: 1rem;
+      margin-bottom: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #ff6600;
+    }
+
+    .footer-column ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-column ul li {
+      margin-bottom: 0.2rem;
+    }
+
+    .footer-column ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 0.8rem;
+      transition: color 0.3s ease;
+    }
+
+    .footer-column ul li a:hover {
+      color: #ff6600;
+    }
+
+    /* Главная колонка "Autocenters" */
+    .autocenters {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      flex: 2;
+    }
+
+    /* Внутренний блок с тремя колонками (Almaty, Astana, Regions) */
+    .autocenter-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    /* Фиксированный размер для каждой подколонки */
+    .autocenter-wrapper .footer-column {
+      flex: 1;
+      min-width: 180px;
+      max-width: 220px; /* Устанавливаем максимальную ширину */
+    }
+
+    /* Финансовые услуги и DriveHub MC */
+    .financial-drivehub {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      min-width: 200px;
+      max-width: 260px;
+      font-size: 0.8rem;
+    }
+
+    /* Нижняя часть футера */
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      padding-top: 1rem;
+      font-size: 0.9rem;
+      color: #bbb;
+      margin-top: 20px;
+    }
+        /* Основные стили */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-btn {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: white;
+    font-size: 14px;
+    font-family: "Poppins", sans-serif;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 1px;
+    text-shadow: 3px 3px 15px rgba(255, 255, 255, 0.8);
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+/* Контейнер выпадающего списка */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: rgba(0, 0, 0, 0.9);
+    border-radius: 5px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    min-width: 600px;
+    z-index: 100;
+}
+
+/* Показываем меню при наведении */
+.dropdown:hover .dropdown-content {
+    display: flex;
+}
+
+/* Стили колонок */
+.columns {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.column {
+    flex: 1;
+}
+
+/* Заголовки колонок */
+.column h5 {
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: white;
+    text-transform: uppercase;
+    font-family: "Poppins", sans-serif;
+    text-align: center;
+    text-shadow: 3px 3px 15px rgba(255, 255, 255, 0.8);
+    border-bottom: 2px solid #e05500;
+    padding-bottom: 5px;
+}
+
+/* Стили ссылок в колонках */
+.column ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+.column ul li {
+    margin-bottom: 8px;
+}
+
+.column ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 14px;
+    font-family: "Poppins", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 3px 3px 15px rgba(255, 255, 255, 0.8);
+    transition: color 0.3s ease;
+    display: block;
+    padding: 5px 0;
+}
+
+.column ul li a:hover {
+    color: #e05500;
+    text-decoration: underline;
+}
+
+h2 {
+    text-align: center;
+    font-family: "Poppins", sans-serif;
+    text-transform: uppercase;
+    color: white;
+    letter-spacing: 1px;
+    text-shadow: 3px 3px 15px rgba(255, 255, 255, 0.8);
+}
+
+form {
+    max-width: 500px;
+    background-color: #000000;
+    padding: 2rem;
+    margin: 2rem auto;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(255, 102, 0, 0.8);
+}
+
+label {
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #ff6600;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1.5rem;
+    border: 2px solid #ff6600;
+    border-radius: 5px;
+    background-color: #000;
+    color: white;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+input:focus, textarea:focus {
+    border-color: #ff9900;
+    outline: none;
+}
+
+input[disabled] {
+    background-color: #000000;
+    color: #777;
+    cursor: not-allowed;
+}
+
+button {
+    background-color: #ff6600;
+    color: white;
+    border: none;
+    padding: 1rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #e05500;
+}
+
+#responseMessage {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 1rem;
+    color: #66ff66;
+}
+/* Стили для выпадающего списка */
+select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 15px;
+    font-family: "Poppins", sans-serif;
+    border: 2px solid #ff6600;
+    border-radius: 5px;
+    background-color: #000;
+    color: white;
+    outline: none;
+    text-transform: uppercase;
+    appearance: none; /* Убирает стандартный стиль браузера */
+    cursor: pointer;
+}
+
+/* Стили для опций внутри select */
+select option {
+    background-color: #000;
+    color: white;
+    padding: 10px;
+    font-size: 14px;
+    font-family: "Poppins", sans-serif;
+    text-transform: uppercase;
+}
+
+/* Стили для выделенной опции */
+select option:checked {
+    background-color: #ff6600;
+    color: black;
+    font-weight: bold;
+}
+
+/* Стили при наведении (для некоторых браузеров) */
+select option:hover {
+    background-color: #e05500;
+    color: white;
+}
+
+/* Убираем рамку при фокусе */
+select:focus {
+    border-color: #e05500;
+    box-shadow: 0 0 10px rgba(255, 102, 0, 0.7);
+}
+
+  </style>
+</head>
+<body>
+<header>
+  <a href="/static/loghome.html" class="logo">
+    Drive<span class="highlight">Hub</span>
+  </a>
+  <nav>
+    <a href="/static/logaboutus.html">About Company</a>
+    <a href="/static/logproduction.html">Production</a>
+    <a href="/static/logdistributors.html">Distributors</a>
+    <a href="/static/lognews.html">News</a>
+    <div class="dropdown">
+      <a href="#" class="dropdown-btn">Autocenters</a>
+      <div class="dropdown-content">
+          <div class="columns">
+              <div class="column">
+                  <h5>Almaty</h5>
+                  <ul>
+                      <li><a href="/static/autocenters/logcheryalfarabi.html">Chery Al-Farabi</a></li>
+                      <li><a href="/static/autocenters/logtankalfarabi.html">Haval&Tank Al-Farabi</a></li>
+                      <li><a href="/static/autocenters/logcheryalmaty.html">Chery Almaty</a></li>
+                  </ul>
+              </div>
+              <div class="column">
+                  <h5>Astana</h5>
+                  <ul>
+                      <li><a href="/static/autocenters/logtankhavalnurlyzhol.html">Haval&Tank Nurly Zhol</a></li>
+                      <li><a href="/static/autocenters/loghyundainurlyzhol.html">Hyundai Nurly Zhol</a></li>
+                      <li><a href="/static/autocenters/logchangannurlyzhol.html">Changan Nurly Zhol</a></li>
+                  </ul>
+              </div>
+              <div class="column">
+                  <h5>Regions</h5>    
+                  <ul>
+                      <li><a href="/static/autocenters/loghyundaiqaragandy.html">Hyundai Qaragandy</a></li>
+                      <li><a href="/static/autocenters/loghyundaishymcity.html">Hyundai ShymCity</a></li>
+                  </ul>
+              </div>
+          </div>
+      </div>
+  </div>
+    <a href="/static/logcars.html">Cars</a>
+    <a href="/static/logcontact.html">Contact</a>
+    <a href="/static/logfinancialservices.html">Financial Services</a>
+    <a href="/static/myprofile.html">Profile</a>
+  </nav>
+</header>
+
+<h2>Car Purchase Application</h2>
+<form id="applicationForm">
+  <label for="fullName">Full Name:</label>
+  <input type="text" id="fullName" name="fullName" required>
+
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email" required disabled> <!-- Disabled input -->
+
+  <label for="phone">Phone:</label>
+  <input type="text" id="phone" name="phone" required>
+
+  <label for="applicationType">Type of Application:</label>
+  <select id="applicationType" name="applicationType" required>
+    <option value="" disabled selected>Select an option</option>
+    <option value="smart-exchange">Smart Exchange</option>
+    <option value="technical-inspection">Technical Inspection</option>
+    <option value="sell-your-car">Sell Your Car</option>
+  </select>
+
+  <label for="carModels">Car Models (comma-separated):</label>
+  <input type="text" id="carModels" name="carModels" placeholder="e.g. Tesla Model S, Ford Mustang" required>
+
+  <label for="year">Year of Release:</label>
+  <input type="number" id="year" name="year" min="1990" max="2025" required>
+
+  <label for="mileage">Mileage:</label>
+  <input type="number" id="mileage" name="mileage" required>
+
+  <label for="message">Additional Message (Optional):</label>
+  <textarea id="message" name="message"></textarea>
+
+  <button type="submit" id="submitButton">Submit Application</button>
+</form>
+
+<p id="responseMessage"></p>
+
+
+<script>
+  // 🔹 Fetch logged-in user details & check existing application
+  async function fetchUserDetails() {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("❌ You must be logged in to submit an application.");
+      window.location.href = "/static/login.html"; // Redirect to login if not authenticated
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:8000/api/users/user", {
+        method: "GET",
+        headers: { "Authorization": `Bearer ${token}` }
+      });
+
+      if (!response.ok) throw new Error("Failed to fetch user details");
+
+      const user = await response.json();
+      document.getElementById("fullName").value = user.name;
+      document.getElementById("email").value = user.email; // Pre-fill email field
+
+      // 🔹 Check if user already has an application
+      checkExistingApplication(user.email);
+
+    } catch (error) {
+      console.error("❌ Error fetching user details:", error);
+      alert("⚠️ Could not load user details.");
+    }
+  }
+
+  // 🔹 Check if the user has an existing application
+  async function checkExistingApplication() {
+    try {
+      const response = await fetch("http://localhost:8000/api/users/application-status", {
+        method: "GET",
+        headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
+      });
+
+      if (!response.ok) {
+        if (response.status === 404) {
+          console.log("ℹ️ No previous application found, user can apply.");
+          return; // ✅ Allow user to apply if no application exists
+        }
+        throw new Error("Failed to fetch application status");
+      }
+
+      const data = await response.json();
+      console.log("📥 Existing Application Status:", data);
+
+      if (data.status) {
+        document.getElementById("responseMessage").textContent = `✅ Your application is ${data.status}`;
+        document.getElementById("responseMessage").style.color =
+                data.status === "Accepted" ? "green" : data.status === "Declined" ? "red" : "blue";
+
+        // ✅ Disable submit button if user has an application
+        const submitButton = document.getElementById("submitButton");
+        submitButton.disabled = true;
+        submitButton.textContent = "Submitted";
+      }
+
+    } catch (error) {
+      console.error("❌ Error checking application status:", error);
+    }
+  }
+
+  // 🔹 Run this when the page loads
+  document.addEventListener("DOMContentLoaded", checkExistingApplication);
+
+
+
+  document.addEventListener("DOMContentLoaded", fetchUserDetails);
+
+  // 🔹 Handle application submission
+  document.getElementById("applicationForm").addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const fullName = document.getElementById("fullName").value.trim();
+    const email = document.getElementById("email").value.trim(); // Email fetched from user data
+    const phone = document.getElementById("phone").value.trim();
+    const carModels = document.getElementById("carModels").value.split(",").map(model => model.trim());
+    const year = parseInt(document.getElementById("year").value);
+    const mileage = parseInt(document.getElementById("mileage").value);
+    const message = document.getElementById("message").value.trim();
+    const token = localStorage.getItem("token");
+    const submitButton = document.getElementById("submitButton");
+
+    if (!fullName || !email || !phone || carModels.length === 0 || isNaN(year) || isNaN(mileage)) {
+      alert("⚠️ Please fill in all required fields correctly.");
+      return;
+    }
+
+    submitButton.disabled = true;
+    submitButton.textContent = "Submitted";
+    document.getElementById("responseMessage").textContent = "✅ Application under review. Please wait...";
+
+    const requestData = { fullName, email, phone, carModels, year, mileage, message };
+
+    try {
+      const response = await fetch("http://localhost:8000/api/users/apply", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(requestData)
+      });
+
+      const textResponse = await response.text();
+      console.log("📥 Server Response:", textResponse);
+
+      if (!response.ok) {
+        document.getElementById("responseMessage").textContent = "⚠️ Application submission failed.";
+        document.getElementById("responseMessage").style.color = "red";
+        submitButton.disabled = false;
+        submitButton.textContent = "Submit Application";
+        throw new Error(`Server error: ${response.status}`);
+      }
+
+      const result = JSON.parse(textResponse);
+      
+      document.getElementById("responseMessage").style.color = "blue";
+
+      submitButton.textContent = "Submitted";
+
+      checkApplicationStatus(result.applicationId);
+
+    } catch (error) {
+      console.error("❌ Error submitting application:", error);
+      document.getElementById("responseMessage").textContent = "⚠️ Error submitting application. Please try again.";
+      document.getElementById("responseMessage").style.color = "red";
+      submitButton.disabled = false;
+      submitButton.textContent = "Submit Application";
+    }
+  });
+
+  // 🔹 Function to Check Application Status
+  async function checkApplicationStatus(applicationId) {
+    try {
+      const response = await fetch(`http://localhost:8000/api/users/application-status/${applicationId}`, {
+        method: "GET",
+        headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
+      });
+
+      const data = await response.json();
+      console.log("📥 Application Status:", data);
+
+      if (data.status === "Accepted") {
+        document.getElementById("responseMessage").textContent = `🎉 Application accepted! Meeting scheduled on: ${data.meeting}`;
+        document.getElementById("responseMessage").style.color = "green";
+      } else if (data.status === "Declined") {
+        document.getElementById("responseMessage").textContent = "❌ Your application was declined.";
+        document.getElementById("responseMessage").style.color = "red";
+      } else {
+        setTimeout(() => checkApplicationStatus(applicationId), 5000); // Check again in 5 seconds
+      }
+
+    } catch (error) {
+      console.error("❌ Error checking application status:", error);
+    }
+  }
+
+</script>
+
+</body>
+</html>
