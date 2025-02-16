@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DriveHub</title>
+  <style>
+    body {
+      background-color: #000;
+      color: white;
+      font-family: "Poppins", sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #000000;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      font-family: "Poppins", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-decoration: none;
+      color: white; /* "Drive" остается белым */
+      display: inline-block;
+      transition: text-shadow 0.3s ease; /* Плавное свечение */
+    }
+
+    header .logo .highlight {
+      background-color: #ff6600; /* Оранжевый фон */
+      color: black; /* "Hub" черного цвета */
+      padding: 0 5px; /* Отступы */
+      border-radius: 4px; /* Скругление углов */
+      transition: box-shadow 0.3s ease; /* Плавное свечение */
+    }
+
+    /* Эффект свечения при наведении */
+    header .logo:hover {
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); /* Белое свечение */
+    }
+
+    header .logo:hover .highlight {
+      box-shadow: 0 0 15px rgba(255, 102, 0, 0.8); /* Оранжевое свечение */
+    }
+
+
+
+    header nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 1rem;
+      font-family: "Poppins", sans-serif;
+      text-transform: uppercase;
+      font-size: 14px;
+      letter-spacing: 1px;      text-align: center;
+      text-shadow: 3px 3px 15px rgba(255, 255, 255, 0.8);
+      position: relative;
+      padding-bottom: 5px;
+      transition: color 0.3s ease;
+    }
+
+    header nav a::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background-color: #ff6600; /* Цвет линии при наведении */
+      transition: width 0.3s ease, left 0.3s ease;
+    }
+
+    header nav a:hover {
+      color: #ff6600; /* Изменение цвета текста при наведении */
+    }
+
+    header nav a:hover::after {
+      width: 100%;
+      left: 0;
+    }
+
+    .hero {
+      height: 80vh;
+      background-image: url('/static/images/hyundaishymcity.png');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-align: center;
+      text-shadow: 3px 3px 15px rgba(255, 255, 255, 0.8);
+    }
+
+
+    .hero p {
+      font-size: 1.5rem;
+      margin-top: 1rem;
+    }
+    .hero button {
+      background-color: #ff6600;
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .hero button:hover {
+      background-color: #e05500;
+    }
+
+    .distributors {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+      padding: 4rem 2rem;
+    }
+
+    .distributors h1 {
+      text-align: center;
+      font-size: 3rem;
+      text-transform: uppercase;
+      text-shadow: 3px 3px 15px rgba(255, 255, 255, 0.8);
+      margin-bottom: 2rem;
+    }
+
+    .autocenter {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .autocenter img {
+      width: 40%;
+      max-width: 600px;
+      border-radius: 10px;
+    }
+
+    .autocenter-info {
+      flex: 1;
+    }
+
+    .autocenter-info h2 {
+      font-size: 2rem;
+      text-transform: uppercase;
+      text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.8);
+    }
+
+    .autocenter-info p {
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 1rem;
+      line-height: 1.6;
+    }
+
+    .contact {
+      margin-top: 1.5rem;
+    }
+
+    .contact p {
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 768px) {
+      .autocenter {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .autocenter img {
+        width: 80%;
+      }
+    }
+
+
+    footer {
+      background-color: #000000;
+      color: white;
+      text-align: center;
+      padding: 2rem 1rem;
+      margin-top: 8rem;
+    }
+
+    .footer-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      gap: 2rem;
+    }
+
+    /* Общий стиль колонн */
+    .footer-column {
+      flex: 1;
+      min-width: 180px;
+      text-align: left;
+    }
+
+    .footer-column h3 {
+      font-size: 1rem;
+      margin-bottom: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #ff6600;
+    }
+
+    .footer-column ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-column ul li {
+      margin-bottom: 0.2rem;
+    }
+
+    .footer-column ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 0.8rem;
+      transition: color 0.3s ease;
+    }
+
+    .footer-column ul li a:hover {
+      color: #ff6600;
+    }
+
+    /* Главная колонка "Autocenters" */
+    .autocenters {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      flex: 2;
+    }
+
+    /* Внутренний блок с тремя колонками (Almaty, Astana, Regions) */
+    .autocenter-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    /* Фиксированный размер для каждой подколонки */
+    .autocenter-wrapper .footer-column {
+      flex: 1;
+      min-width: 180px;
+      max-width: 220px; /* Устанавливаем максимальную ширину */
+    }
+
+    /* Финансовые услуги и DriveHub MC */
+    .financial-drivehub {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      min-width: 200px;
+      max-width: 260px;
+      font-size: 0.8rem;
+    }
+
+    /* Нижняя часть футера */
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      padding-top: 1rem;
+      font-size: 0.9rem;
+      color: #bbb;
+      margin-top: 20px;
+    }
+            /* Основные стили */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-btn {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: white;
+    font-size: 14px;
+    font-family: "Poppins", sans-serif;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 1px;
+    text-shadow: 3px 3px 15px rgba(255, 255, 255, 0.8);
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+/* Контейнер выпадающего списка */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: rgba(0, 0, 0, 0.9);
+    border-radius: 5px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    min-width: 600px;
+    z-index: 100;
+}
+
+/* Показываем меню при наведении */
+.dropdown:hover .dropdown-content {
+    display: flex;
+}
+
+/* Стили колонок */
+.columns {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.column {
+    flex: 1;
+}
+
+/* Заголовки колонок */
+.column h5 {
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: white;
+    text-transform: uppercase;
+    font-family: "Poppins", sans-serif;
+    text-align: center;
+    text-shadow: 3px 3px 15px rgba(255, 255, 255, 0.8);
+    border-bottom: 2px solid #e05500;
+    padding-bottom: 5px;
+}
+
+/* Стили ссылок в колонках */
+.column ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+.column ul li {
+    margin-bottom: 8px;
+}
+
+.column ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 14px;
+    font-family: "Poppins", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 3px 3px 15px rgba(255, 255, 255, 0.8);
+    transition: color 0.3s ease;
+    display: block;
+    padding: 5px 0;
+}
+
+.column ul li a:hover {
+    color: #e05500;
+    text-decoration: underline;
+}
+  </style>
+</head>
+<body>
+<header>
+  <a href="/static/home.html" class="logo">
+    Drive<span class="highlight">Hub</span>
+  </a>
+  <nav>
+    <a href="/static/aboutus.html">About Company</a>
+    <a href="/static/production.html">Production</a>
+    <a href="/static/distributors.html">Distributors</a>
+    <a href="/static/news.html">News</a>
+    <div class="dropdown">
+      <a href="#" class="dropdown-btn">Autocenters</a>
+      <div class="dropdown-content">
+          <div class="columns">
+              <div class="column">
+                  <h5>Almaty</h5>
+                  <ul>
+                      <li><a href="/static/autocenters/cheryalfarabi.html">Chery Al-Farabi</a></li>
+                      <li><a href="/static/autocenters/tankalfarabi.html">Haval&Tank Al-Farabi</a></li>
+                      <li><a href="/static/autocenters/cheryalmaty.html">Chery Almaty</a></li>
+                  </ul>
+              </div>
+              <div class="column">
+                  <h5>Astana</h5>
+                  <ul>
+                      <li><a href="/static/autocenters/tankhavalnurlyzhol.html">Haval&Tank Nurly Zhol</a></li>
+                      <li><a href="/static/autocenters/hyundainurlyzhol.html">Hyundai Nurly Zhol</a></li>
+                      <li><a href="/static/autocenters/changannurlyzhol.html">Changan Nurly Zhol</a></li>
+                  </ul>
+              </div>
+              <div class="column">
+                  <h5>Regions</h5>
+                  <ul>
+                      <li><a href="/static/autocenters/hyundaiqaragandy.html">Hyundai Qaragandy</a></li>
+                      <li><a href="/static/autocenters/hyundaishymcity.html">Hyundai ShymCity</a></li>
+                  </ul>
+              </div>
+          </div>
+      </div>
+  </div>
+    <a href="https://mycar.kz/cars">Used Cars</a>
+    <a href="/static/contact.html">Contact</a>
+    <a href="/static/financialservices.html">Financial Services</a>
+    <a href="/static/login.html">Login</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <div>
+    <h1>Hyundai ShymCity</h1>
+  </div>
+</div>
+
+<section class="distributors">
+  <h1>Hyundai ShymCity Auto Center</h1>
+
+  <div class="autocenter">
+    <img src="/static/images/Снимок экрана 2025-02-10 015900.png" alt="Hyundai ShymCity Auto Center">
+    <div class="autocenter-info">
+      <h2>Exclusive Showroom</h2>
+      <p>Experience the latest Hyundai models in our modern showroom, designed to provide a premium car-buying experience.</p>
+      <div class="contact">
+        <p>📍 Location: Shymkent, Tauke Khan Avenue 120</p>
+        <p>📞 Contact: +7 777 987 6543</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="autocenter">
+    <img src="/static/images/Снимок экрана 2025-02-10 015853.png" alt="Hyundai ShymCity Interior">
+    <div class="autocenter-info">
+      <h2>Modern & Comfortable</h2>
+      <p>Discover Hyundai’s advanced technology and luxurious interiors, designed for ultimate comfort and convenience.</p>
+      <div class="contact">
+        <p>🕒 Working Hours: Mon-Sat, 9:00 AM - 8:00 PM</p>
+        <p>📧 Email: info@hyundai-shymcity.kz</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="autocenter">
+    <img src="/static/images/Снимок экрана 2025-02-10 015844.png" alt="Hyundai ShymCity Service Center">
+    <div class="autocenter-info">
+      <h2>Certified Service Center</h2>
+      <p>Our highly trained technicians provide expert maintenance and repair services using genuine Hyundai parts.</p>
+      <div class="contact">
+        <p>⚙️ Services: Maintenance, Repairs, Customization</p>
+        <p>🔧 Spare Parts: Genuine Hyundai components available</p>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+
+
+
+
+<footer>
+  <hr>
+  <div class="footer-container">
+    <!-- Production -->
+    <div class="footer-column">
+      <h3>Production</h3>
+      <ul>
+        <li><a href="/static/production.html#hyundai-almaty">Hyundai Trans Almaty</a></li>
+        <li><a href="/static/production.html#hyundai-kz">Hyundai Trans Kazakhstan</a></li>
+        <li><a href="/static/production.html#auto-tech">Auto Component Technopark</a></li>
+        <li><a href="/static/production.html#drivehub">DriveHub Manufacturing Kazakhstan</a></li>
+
+      </ul>
+    </div>
+
+    <!-- Distributors -->
+    <div class="footer-column">
+      <h3>Distributors</h3>
+      <ul>
+        <li><a href="/static/distributors.html#genesis">Genesis</a></li>
+        <li><a href="/static/distributors.html#bmw">BMW</a></li>
+        <li><a href="/static/distributors.html#changan">Changan Auto</a></li>
+        <li><a href="/static/distributors.html#chery">Chery Kazakhstan</a></li>
+        <li><a href="/static/distributors.html#golden-dragon">Golden Dragon</a></li>
+        <li><a href="/static/distributors.html#tank">TANK</a></li>
+        <li><a href="/static/distributors.html#jlr">Jaguar Land Rover Kazakhstan</a></li>
+        <li><a href="/static/distributors.html#subaru">Subaru Kazakhstan</a></li>
+
+      </ul>
+
+    </div>
+
+    <!-- Автоцентры (Главная колонка) -->
+    <div class="footer-column autocenters">
+      <h3>Autocenters</h3>
+      <div class="autocenter-wrapper">
+        <div class="footer-column">
+          <h5>Almaty</h5>
+          <ul>
+            <li><a href="/static/autocenters/cheryalfarabi.html">Chery Al-Farabi</a></li>
+            <li><a href="/static/autocenters/tankalfarabi.html">Haval&Tank Al-Farabi</a></li>
+            <li><a href="/static/autocenters/cheryalmaty.html">Chery Almaty</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h5>Astana</h5>
+          <ul>
+            <li><a href="/static/autocenters/tankhavalnurlyzhol.html">Haval&Tank Nurly Zhol</a></li>
+            <li><a href="/static/autocenters/hyundainurlyzhol.html">Hyundai Nurly Zhol</a></li>
+            <li><a href="/static/autocenters/changannurlyzhol.html">Changan Nurly Zhol</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h5>Regions</h5>
+          <ul>
+            <li><a href="/static/autocenters/hyundaiqaragandy.html">Hyundai Qaragandy</a></li>
+            <li><a href="/static/autocenters/hyundaishymcity.html">Hyundai ShymCity</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Financial Services и DriveHub MC -->
+    <div class="financial-drivehub">
+      <div class="footer-column">
+        <h3>Financial Services</h3>
+        <ul>
+          <li><a href="/static/financialservices.html#leasing">Leasing</a></li>
+          <li><a href="/static/financialservices.html#opleasing">Operational Leasing</a></li>
+          <li><a href="/static/financialservices.html#loans">Loans</a></li>
+          <li><a href="/static/financialservices.html#insurance">Insurance</a></li>
+
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>DriveHub MC</h3>
+        <ul>
+          <li>Astana, Mangilik El Avenue, C1</li>
+          <li>+7 777 123 4567</li>
+          <li>office@drivehub.com</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    &copy; 2025 DriveHub. All rights reserved.
+  </div>
+</footer>
+
+</body>
+</html>

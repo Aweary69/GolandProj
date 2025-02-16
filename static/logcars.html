@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DriveHub</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #000000;
+    }
+    header {
+      background-color: #000000;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      font-family: "Poppins", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-decoration: none;
+      color: white; /* "Drive" остается белым */
+      display: inline-block;
+      transition: text-shadow 0.3s ease; /* Плавное свечение */
+    }
+
+    header .logo .highlight {
+      background-color: #ff6600; /* Оранжевый фон */
+      color: black; /* "Hub" черного цвета */
+      padding: 0 5px; /* Отступы */
+      border-radius: 4px; /* Скругление углов */
+      transition: box-shadow 0.3s ease; /* Плавное свечение */
+    }
+
+    /* Эффект свечения при наведении */
+    header .logo:hover {
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); /* Белое свечение */
+    }
+
+    header .logo:hover .highlight {
+      box-shadow: 0 0 15px rgba(255, 102, 0, 0.8); /* Оранжевое свечение */
+    }
+
+
+
+    header nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 1rem;
+      font-family: "Poppins", sans-serif;
+      text-transform: uppercase;
+      font-size: 14px;
+      letter-spacing: 1px;
+      text-align: center;
+      text-shadow: 3px 3px 15px rgba(255, 255, 255, 0.8);
+      position: relative;
+      padding-bottom: 5px;
+      transition: color 0.3s ease;
+    }
+
+    header nav a::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background-color: #ff6600; /* Цвет линии при наведении */
+      transition: width 0.3s ease, left 0.3s ease;
+    }
+
+    header nav a:hover {
+      color: #ff6600; /* Изменение цвета текста при наведении */
+    }
+
+    header nav a:hover::after {
+      width: 100%;
+      left: 0;
+    }
+
+    .hero {
+      height: 80vh;
+      background-image: url('/static/images/car1.jpg');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-align: center;
+      text-shadow: 3px 3px 15px rgba(255, 255, 255, 0.8);
+    }
+
+
+    .hero p {
+      font-size: 1.5rem;
+      margin-top: 1rem;
+    }
+    .hero button {
+      background-color: #ff6600;
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .hero button:hover {
+      background-color: #e05500;
+    }
+
+    .filters {
+    margin-left: 20px;
+    left: 20px;
+    top: 100px; /* Чтобы не наезжало на шапку */
+    background-color: #000000; /* Тёмный фон */
+    padding: 1rem;
+    border-radius: 10px;
+    width: 250px; /* Компактный размер */
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Меньше расстояние между элементами */
+    z-index: 10; /* Чтобы фильтр не перекрывался контентом */
+}
+
+.filters label {
+    font-family: "Poppins", sans-serif;
+    text-transform: uppercase;
+    font-size: 12px; /* Чуть меньше шрифт */
+    letter-spacing: 1px;
+}
+
+.filters input,
+.filters select {
+    width: calc(100% - 1rem); /* Убираем padding, чтобы все были одной ширины */
+    padding: 0.5rem;
+    border: 1px solid #ff6600;
+    border-radius: 5px;
+    background-color: #000000;
+    color: white;
+    font-size: 0.9rem;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box; /* Учитывает padding в размере */
+}
+
+
+.filters input:focus,
+.filters select:focus {
+    border-color: #ff9900;
+    outline: none;
+}
+
+#filter-btn {
+    background-color: #ff6600;
+    color: white;
+    border: none;
+    width: 234px;
+    padding: 0.7rem;
+    font-size: 0.9rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: "Poppins", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+#filter-btn:hover {
+    background-color: #e05500;
+}
+
+#submit-btn {
+    background-color: #ff6600;
+    color: white;
+    border: none;
+    width: 210px;
+    margin-top: 10px;
+    padding: 0.7rem;
+    font-size: 0.9rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: "Poppins", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    display: inline-block;
+    text-decoration: none; /* Убираем подчеркивание */
+}
+
+#submit-btn:hover {
+    background-color: #e05500;
+}
+
+.car-container {
+    display: flex;
+    flex-direction: column; /* Карточки идут строго по вертикали */
+    align-items: center; /* Центрирование карточек */
+    gap: 20px;
+    padding: 0; /* Убираем лишний внутренний отступ */
+    margin: 0 auto; /* Центрирование контейнера */
+    max-width: 800px; /* Ограничиваем ширину */
+    margin-top: -620px;
+}
+
+.car-card {
+    background-color: #000000;
+    color: white;
+    padding: 1rem;
+    border-radius: 10px;
+    width: 100%;
+    box-shadow: 0 4px 8px #ff6600;
+    font-family: "Poppins", sans-serif;
+    text-align: center;
+    display: flex;
+    text-transform: uppercase;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.car-card img {
+    width: 750px;
+    max-height: 500px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    object-fit: cover;
+
+}
+
+
+
+.hidden {
+            display: none;
+        }
+    footer {
+      background-color: #000000;
+      color: white;
+      text-align: center;
+      padding: 2rem 1rem;
+      margin-top: 8rem;
+    }
+
+    .footer-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      gap: 2rem;
+    }
+
+    /* Общий стиль колонн */
+    .footer-column {
+      flex: 1;
+      min-width: 180px;
+      text-align: left;
+    }
+
+    .footer-column h3 {
+      font-size: 1rem;
+      margin-bottom: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #ff6600;
+    }
+
+    .footer-column ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-column ul li {
+      margin-bottom: 0.2rem;
+    }
+
+    .footer-column ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 0.8rem;
+      transition: color 0.3s ease;
+    }
+
+    .footer-column ul li a:hover {
+      color: #ff6600;
+    }
+
+    /* Главная колонка "Autocenters" */
+    .autocenters {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      flex: 2;
+    }
+
+    /* Внутренний блок с тремя колонками (Almaty, Astana, Regions) */
+    .autocenter-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    /* Фиксированный размер для каждой подколонки */
+    .autocenter-wrapper .footer-column {
+      flex: 1;
+      min-width: 180px;
+      max-width: 220px; /* Устанавливаем максимальную ширину */
+    }
+
+    /* Финансовые услуги и DriveHub MC */
+    .financial-drivehub {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      min-width: 200px;
+      max-width: 260px;
+      font-size: 0.8rem;
+    }
+
+    /* Нижняя часть футера */
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      padding-top: 1rem;
+      font-size: 0.9rem;
+      color: #bbb;
+      margin-top: 20px;
+    }
+        /* Основные стили */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-btn {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: white;
+    font-size: 14px;
+    font-family: "Poppins", sans-serif;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 1px;
+    text-shadow: 3px 3px 15px rgba(255, 255, 255, 0.8);
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+/* Контейнер выпадающего списка */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: rgba(0, 0, 0, 0.9);
+    border-radius: 5px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    min-width: 600px;
+    z-index: 100;
+}
+
+/* Показываем меню при наведении */
+.dropdown:hover .dropdown-content {
+    display: flex;
+}
+
+/* Стили колонок */
+.columns {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.column {
+    flex: 1;
+}
+
+/* Заголовки колонок */
+.column h5 {
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: white;
+    text-transform: uppercase;
+    font-family: "Poppins", sans-serif;
+    text-align: center;
+    text-shadow: 3px 3px 15px rgba(255, 255, 255, 0.8);
+    border-bottom: 2px solid #e05500;
+    padding-bottom: 5px;
+}
+
+/* Стили ссылок в колонках */
+.column ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+.column ul li {
+    margin-bottom: 8px;
+}
+
+.column ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 14px;
+    font-family: "Poppins", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 3px 3px 15px rgba(255, 255, 255, 0.8);
+    transition: color 0.3s ease;
+    display: block;
+    padding: 5px 0;
+}
+
+.column ul li a:hover {
+    color: #e05500;
+    text-decoration: underline;
+}
+
+
+  </style>
+</head>
+<body>
+<header>
+  <a href="/static/loghome.html" class="logo">
+    Drive<span class="highlight">Hub</span>
+  </a>
+  <nav>
+    <a href="/static/logaboutus.html">About Company</a>
+    <a href="/static/logproduction.html">Production</a>
+    <a href="/static/logdistributors.html">Distributors</a>
+    <a href="/static/lognews.html">News</a>
+    <div class="dropdown">
+      <a href="#" class="dropdown-btn">Autocenters</a>
+      <div class="dropdown-content">
+          <div class="columns">
+              <div class="column">
+                  <h5>Almaty</h5>
+                  <ul>
+                      <li><a href="/static/autocenters/logcheryalfarabi.html">Chery Al-Farabi</a></li>
+                      <li><a href="/static/autocenters/logtankalfarabi.html">Haval&Tank Al-Farabi</a></li>
+                      <li><a href="/static/autocenters/logcheryalmaty.html">Chery Almaty</a></li>
+                  </ul>
+              </div>
+              <div class="column">
+                  <h5>Astana</h5>
+                  <ul>
+                      <li><a href="/static/autocenters/logtankhavalnurlyzhol.html">Haval&Tank Nurly Zhol</a></li>
+                      <li><a href="/static/autocenters/loghyundainurlyzhol.html">Hyundai Nurly Zhol</a></li>
+                      <li><a href="/static/autocenters/logchangannurlyzhol.html">Changan Nurly Zhol</a></li>
+                  </ul>
+              </div>
+              <div class="column">
+                  <h5>Regions</h5>    
+                  <ul>
+                      <li><a href="/static/autocenters/loghyundaiqaragandy.html">Hyundai Qaragandy</a></li>
+                      <li><a href="/static/autocenters/loghyundaishymcity.html">Hyundai ShymCity</a></li>
+                  </ul>
+              </div>
+          </div>
+      </div>
+  </div>
+    <a href="/static/logcars.html">Cars</a>
+    <a href="/static/logcontact.html">Contact</a>
+    <a href="/static/logfinancialservices.html">Financial Services</a>
+    <a href="/static/myprofile.html">Profile</a>
+  </nav>
+</header>
+
+
+
+<div class="filters">
+    <label for="city">City:</label>
+    <select id="city">
+        <option value="all">Any</option>
+        <option value="Almaty">Almaty</option>
+        <option value="Astana">Astana</option>
+        <option value="Shymkent">Shymkent</option>
+        <option value="Karaganda">Karaganda</option>
+    </select>
+
+    <label for="brand">Brand:</label>
+    <select id="brand">
+        <option value="all">Any</option>
+        <option value="Mercedes">Mercedes</option>
+        <option value="BMW">BMW</option>
+        <option value="Audi">Audi</option>
+        <option value="Hyundai">Hyundai</option>
+        <option value="Nissan">Nissan</option>
+        <option value="JAC">JAC</option>
+        <option value="Lexus">Lexus</option>
+        <option value="Toyota">Toyota</option>
+        <option value="Kia">Kia</option>
+        <option value="Ford">Ford</option>
+        <option value="Honda">Honda</option>
+        <option value="Changan">Changan</option>
+        <option value="Subaru">Subaru</option>
+        <option value="Chevrolet">Chevrolet</option>
+        <option value="Jetour">Jetour</option>
+        <option value="Lada">Lada</option>
+        <option value="Volkswagen">Volkswagen</option>
+
+    </select>
+
+    <label for="fuel">Fuel Type:</label>
+    <select id="fuel">
+        <option value="all">Any</option>
+        <option value="Gasoline">Gasoline</option>
+        <option value="Diesel">Diesel</option>
+    </select>
+
+    <label for="min-price">Min Price:</label>
+    <input type="number" id="min-price">
+
+    <label for="max-price">Max Price:</label>
+    <input type="number" id="max-price">
+
+    <label for="min-mileage">Min Mileage:</label>
+    <input type="number" id="min-mileage">
+
+    <label for="max-mileage">Max Mileage:</label>
+    <input type="number" id="max-mileage">
+
+    <label for="min-year">Min Year:</label>
+    <input type="number" id="min-year">
+
+    <label for="max-year">Max Year:</label>
+    <input type="number" id="max-year">
+
+    <button id="filter-btn">Filter</button>
+    <a href="/static/application.html" id="submit-btn">Submit an application</a>
+</div>
+
+<div class="car-container">
+    <div class="car-card" data-city="Almaty" data-brand="Hyundai" data-fuel="Gasoline" data-price="400000" data-mileage="1000" data-year="1996">
+        <img src="/static/images/HyundaiAccent1996.webp" alt="Hyundai">
+        <h2>Hyundai Accent</h2>
+        <p><b>City:</b> Almaty</p>
+        <p><b>Mileage:</b> 1 000km</p>
+        <p><b>Year:</b> 1996</p>
+        <p><b>Fuel:</b> Gasoline</p>
+        <p><b>Price:</b> 400 000 tg</p>
+        <p><b>Phone:</b> +7 707 892 24 32</p>
+    </div>
+
+    <div class="car-card" data-city="Astana" data-brand="Kia" data-fuel="Gasoline" data-price="8700000" data-mileage="90000" data-year="2020">
+        <img src="/static/images/Kia Rio X.webp" alt="Kia">
+        <h2>Kia Rio X</h2>
+        <p><b>City:</b> Astana</p>
+        <p><b>Mileage:</b> 90 000km</p>
+        <p><b>Year:</b> 2020</p>
+        <p><b>Fuel:</b> Gasoline</p>
+        <p><b>Price:</b> 8 700 000 TG</p>
+        <p><b>Phone:</b> +7 771 192 44 52</p>
+    </div>
+
+    <div class="car-card" data-city="Shymkent" data-brand="Ford" data-fuel="Gasoline" data-price="5800000" data-mileage="65000" data-year="2014">
+        <img src="/static/images/FordFocus2014.webp" alt="Ford">
+        <h2>Ford Focus</h2>
+        <p><b>City:</b> Shymkent</p>
+        <p><b>Mileage:</b> 65 000km</p>
+        <p><b>Year:</b> 2014</p>
+        <p><b>Fuel:</b> Gasoline</p>
+        <p><b>Price:</b> 5 800 000 TG</p>
+        <p><b>Phone:</b> +7 776 345 12 62</p>
+        
+    </div>
+
+    <div class="car-card" data-city="Shymkent" data-brand="Honda" data-fuel="Gasoline" data-price="5800000" data-mileage="189000" data-year="2007">
+        <img src="/static/images/hondaelysion.webp" alt="Honda">
+        <h2>Honda Elysion</h2>
+        <p><b>City:</b> Shymkent</p>
+        <p><b>Mileage:</b> 189 000 km</p>
+        <p><b>Year:</b> 2007</p>
+        <p><b>Fuel:</b> Gasoline</p>
+        <p><b>Price:</b> 5 800 000 TG</p>
+        <p><b>Phone:</b> +7 777 134 98 23</p>
+    </div>
+
+    <div class="car-card" data-city="Astana" data-brand="Toyota" data-fuel="Gasoline" data-price="11000000" data-mileage="230000" data-year="2012">
+      <img src="/static/images/ToyotaCamry2012.webp" alt="Toyota">
+      <h2>Toyota Camry</h2>
+      <p><b>City:</b> Astana</p>
+      <p><b>Mileage:</b> 230 000 km</p>
+      <p><b>Year:</b> 2012</p>
+      <p><b>Fuel:</b> Gasoline</p>
+      <p><b>Price:</b> 11 000 000 TG</p>
+      <p><b>Phone:</b> +7 776 456 72 67</p>
+  </div>
+
+  <div class="car-card" data-city="Astana" data-brand="Changan" data-fuel="Gasoline" data-price="14600000" data-mileage="13313" data-year="2024">
+    <img src="/static/images/Changan UNI-K2024.webp" alt="Changan">
+    <h2>Changan UNI-K2024</h2>
+    <p><b>City:</b> Astana</p>
+    <p><b>Mileage:</b> 13 313 km</p>
+    <p><b>Year:</b> 2024</p>
+    <p><b>Fuel:</b> Gasoline</p>
+    <p><b>Price:</b> 14 600 000 TG</p>
+    <p><b>Phone:</b> +7 771 436 65 27</p>
+</div>
+
+<div class="car-card" data-city="Almaty" data-brand="Subaru" data-fuel="Gasoline" data-price="15200000" data-mileage="38600" data-year="2021">
+  <img src="/static/images/Subaru Forester2021.webp" alt="Subaru">
+  <h2>Subaru Forester</h2>
+  <p><b>City:</b> Almaty</p>
+  <p><b>Mileage:</b> 38 600 km</p>
+  <p><b>Year:</b> 2021</p>
+  <p><b>Fuel:</b> Gasoline</p>
+  <p><b>Price:</b> 15 200 000 TG</p>
+  <p><b>Phone:</b> +7 772 123 23 98</p>
+</div>
+
+<div class="car-card" data-city="Almaty" data-brand="Hyundai" data-fuel="Diesel" data-price="11500000" data-mileage="62000" data-year="2019">
+  <img src="/static/images/HyundaiSonata2019.webp" alt="Hyundai">
+  <h2>Hyundai Sonata</h2>
+  <p><b>City:</b> Almaty</p>
+  <p><b>Mileage:</b> 62 000 km</p>
+  <p><b>Year:</b> 2019</p>
+  <p><b>Fuel:</b> Diesel</p>
+  <p><b>Price:</b> 11 500 000 TG</p>
+  <p><b>Phone:</b> +7 771 785 53 01</p>
+</div>
+
+<div class="car-card" data-city="Shymkent" data-brand="Lexus" data-fuel="Gasoline" data-price="16800000" data-mileage="157000" data-year="2006">
+  <img src="/static/images/Lexus LX2006.webp" alt="Lexus">
+  <h2>Lexus LX</h2>
+  <p><b>City:</b> Shymkent</p>
+  <p><b>Mileage:</b> 157 000 km</p>
+  <p><b>Year:</b> 2006</p>
+  <p><b>Fuel:</b> Gasoline</p>
+  <p><b>Price:</b> 16 800 000 TG</p>
+  <p><b>Phone:</b> +7 772 867 42 21</p>
+</div>
+
+<div class="car-card" data-city="Astana" data-brand="Mercedes" data-fuel="Gasoline" data-price="4600000" data-mileage="276000" data-year="2001">
+  <img src="/static/images/Mercedes-Benz E-Класс2001.webp" alt="Mercedes">
+  <h2>Mercedes Benz E-Class</h2>
+  <p><b>City:</b> Astana</p>
+  <p><b>Mileage:</b> 276 000 km</p>
+  <p><b>Year:</b> 2001</p>
+  <p><b>Fuel:</b> Gasoline</p>
+  <p><b>Price:</b> 4 600 000 TG</p>
+  <p><b>Phone:</b> +7 771 237 12 34</p>
+</div>
+
+<div class="car-card" data-city="Almaty" data-brand="Kia" data-fuel="Gasoline" data-price="12200000" data-mileage="60000" data-year="2021">
+  <img src="/static/images/Kia Sportage2021.webp" alt="Kia">
+  <h2>Kia Sportage</h2>
+  <p><b>City:</b> Almaty</p>
+  <p><b>Mileage:</b> 60 000 km</p>
+  <p><b>Year:</b> 2021</p>
+  <p><b>Fuel:</b> Gasoline</p>
+  <p><b>Price:</b> 12 200 000 TG</p>
+  <p><b>Phone:</b> +7 776 856 43 86</p>
+</div>
+
+<div class="car-card" data-city="Astana" data-brand="BMW" data-fuel="Diesel" data-price="36950000" data-mileage="75000" data-year="2019">
+  <img src="/static/images/BMW X52019.webp" alt="BMW">
+  <h2>BMW X5</h2>
+  <p><b>City:</b> Astana</p>
+  <p><b>Mileage:</b> 75 000 km</p>
+  <p><b>Year:</b> 2019</p>
+  <p><b>Fuel:</b> Diesel</p>
+  <p><b>Price:</b> 36 950 000 TG</p>
+  <p><b>Phone:</b> +7 707 873 14 56</p>
+</div>
+
+<div class="car-card" data-city="Shymkent" data-brand="Chevrolet" data-fuel="Gasoline" data-price="5900000" data-mileage="140000" data-year="2023">
+  <img src="/static/images/Chevrolet Cobalt2023.webp" alt="Chevrolet">
+  <h2>Chevrolet Cobalt</h2>
+  <p><b>City:</b> Shymkent</p>
+  <p><b>Mileage:</b> 140 000 km</p>
+  <p><b>Year:</b> 2023</p>
+  <p><b>Fuel:</b> Gasoline</p>
+  <p><b>Price:</b> 5 900 000 TG</p>
+  <p><b>Phone:</b> +7 700 123 12 52</p>
+</div>
+
+<div class="car-card" data-city="Karaganda" data-brand="Nissan" data-fuel="Gasoline" data-price="7700000" data-mileage="117000" data-year="2014">
+  <img src="/static/images/Nissan Qashqai2014.webp" alt="Nissan">
+  <h2>Nissan Qashqai</h2>
+  <p><b>City:</b> Karaganda</p>
+  <p><b>Mileage:</b> 117 000 km</p>
+  <p><b>Year:</b> 2014</p>
+  <p><b>Fuel:</b> Gasoline</p>
+  <p><b>Price:</b> 7 700 000 TG</p>
+  <p><b>Phone:</b> +7 701 523 54 12</p>
+</div>
+
+<div class="car-card" data-city="Astana" data-brand="Lexus" data-fuel="Gasoline" data-price="10500000" data-mileage="159000" data-year="2014">
+  <img src="/static/images/Lexus IS2014.webp" alt="Lexus">
+  <h2>Lexus IS</h2>
+  <p><b>City:</b> Astana</p>
+  <p><b>Mileage:</b> 159 000 km</p>
+  <p><b>Year:</b> 2014</p>
+  <p><b>Fuel:</b> Gasoline</p>
+  <p><b>Price:</b> 10 500 000 TG</p>
+  <p><b>Phone:</b> +7 777 453 98 47</p>
+</div>
+
+<div class="car-card" data-city="Almaty" data-brand="JAC" data-fuel="Gasoline" data-price="7100000" data-mileage="33500" data-year="2023">
+  <img src="/static/images/JAC J72023.webp" alt="JAC">
+  <h2>JAC J7</h2>
+  <p><b>City:</b> Almaty</p>
+  <p><b>Mileage:</b> 33 500 km</p>
+  <p><b>Year:</b> 2023</p>
+  <p><b>Fuel:</b> Gasoline</p>
+  <p><b>Price:</b> 7 100 000 TG</p>
+  <p><b>Phone:</b> +7 771 854 18 45</p>
+</div>
+
+<div class="car-card" data-city="Karaganda" data-brand="Jetour" data-fuel="Gasoline" data-price="12490000" data-mileage="11862" data-year="2023">
+  <img src="/static/images/Jetour X90 plus2023.webp" alt="Jetour">
+  <h2>Jetour X90 plus</h2>
+  <p><b>City:</b> Karaganda</p>
+  <p><b>Mileage:</b> 11 862 km</p>
+  <p><b>Year:</b> 2023</p>
+  <p><b>Fuel:</b> Gasoline</p>
+  <p><b>Price:</b> 12 490 000 TG</p>
+  <p><b>Phone:</b> +7 776 765 74 12</p>
+</div>
+
+<div class="car-card" data-city="Almaty" data-brand="Audi" data-fuel="Gasoline" data-price="7300000" data-mileage="373000" data-year="2007">
+  <img src="/static/images/Audi Q7 2007.webp" alt="Audi">
+  <h2>Audi Q7</h2>
+  <p><b>City:</b> Almaty</p>
+  <p><b>Mileage:</b> 373 000 km</p>
+  <p><b>Year:</b> 2007</p>
+  <p><b>Fuel:</b> Gasoline</p>
+  <p><b>Price:</b> 7 300 000 TG</p>
+  <p><b>Phone:</b> +7 771 982 74 45</p>
+</div>
+
+<div class="car-card" data-city="Shymkent" data-brand="Lada" data-fuel="Diesel" data-price="2800000" data-mileage="150000" data-year="2013">
+  <img src="/static/images/ВАЗ (Lada) Priora2013.webp" alt="Lada">
+  <h2>ВАЗ (Lada) Priora</h2>
+  <p><b>City:</b> Shymkent</p>
+  <p><b>Mileage:</b> 150 000 km</p>
+  <p><b>Year:</b> 2013</p>
+  <p><b>Fuel:</b> Diesel</p>
+  <p><b>Price:</b> 2 800 000 TG</p>
+  <p><b>Phone:</b> +7 776 534 78 34</p>
+</div>
+
+<div class="car-card" data-city="Shymkent" data-brand="Volkswagen" data-fuel="Diesel" data-price="1000000" data-mileage="500000" data-year="1995">
+  <img src="/static/images/Volkswagen Golf1995.webp" alt="Volkswagen">
+  <h2>Volkswagen Golf</h2>
+  <p><b>City:</b> Shymkent</p>
+  <p><b>Mileage:</b> 500 000 km</p>
+  <p><b>Year:</b> 1995</p>
+  <p><b>Fuel:</b> Diesel</p>
+  <p><b>Price:</b> 1 000 000 TG</p>
+  <p><b>Phone:</b> +7 777 777 77 77</p>
+</div>
+
+<div class="car-card" data-city="Astana" data-brand="Mercedes" data-fuel="Gasoline" data-price="19999999" data-mileage="190000" data-year="2014">
+  <img src="/static/images/Mercedes-Benz S-Класс2014.webp" alt="Mercedes">
+  <h2>Mercedes Benz S-Class</h2>
+  <p><b>City:</b> Astana</p>
+  <p><b>Mileage:</b> 190 000 km</p>
+  <p><b>Year:</b> 2014</p>
+  <p><b>Fuel:</b> Gasoline</p>
+  <p><b>Price:</b> 19 999 999 TG</p>
+  <p><b>Phone:</b> +7 771 111 11 11</p>
+</div>
+
+</div>
+
+
+<footer>
+  <hr>
+  <div class="footer-container">
+    <!-- Production -->
+    <div class="footer-column">
+      <h3>Production</h3>
+      <ul>
+        <li><a href="logproduction.html#hyundai-almaty">Hyundai Trans Almaty</a></li>
+        <li><a href="logproduction.html#hyundai-kz">Hyundai Trans Kazakhstan</a></li>
+        <li><a href="logproduction.html#auto-tech">Auto Component Technopark</a></li>
+        <li><a href="logproduction.html#drivehub">DriveHub Manufacturing Kazakhstan</a></li>
+      </ul>
+    </div>
+
+    <!-- Distributors -->
+    <div class="footer-column">
+      <h3>Distributors</h3>
+      <ul>
+        <li><a href="logdistributors.html#genesis">Genesis</a></li>
+        <li><a href="logdistributors.html#bmw">BMW</a></li>
+        <li><a href="logdistributors.html#changan">Changan Auto</a></li>
+        <li><a href="logdistributors.html#chery">Chery Kazakhstan</a></li>
+        <li><a href="logdistributors.html#golden-dragon">Golden Dragon</a></li>
+        <li><a href="logdistributors.html#tank">TANK</a></li>
+        <li><a href="logdistributors.html#jlr">Jaguar Land Rover Kazakhstan</a></li>
+        <li><a href="logdistributors.html#subaru">Subaru Kazakhstan</a></li>
+      </ul>
+
+    </div>
+
+    <!-- Автоцентры (Главная колонка) -->
+    <div class="footer-column autocenters">
+      <h3>Autocenters</h3>
+      <div class="autocenter-wrapper">
+        <div class="footer-column">
+          <h5>Almaty</h5>
+          <ul>
+            <li><a href="/static/autocenters/logcheryalfarabi.html">Chery Al-Farabi</a></li>
+            <li><a href="/static/autocenters/logtankalfarabi.html">Haval&Tank Al-Farabi</a></li>
+            <li><a href="/static/autocenters/logcheryalmaty.html">Chery Almaty</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h5>Astana</h5>
+          <ul>
+            <li><a href="/static/autocenters/logtankhavalnurlyzhol.html">Haval&Tank Nurly Zhol</a></li>
+            <li><a href="/static/autocenters/loghyundainurlyzhol.html">Hyundai Nurly Zhol</a></li>
+            <li><a href="/static/autocenters/logchangannurlyzhol.html">Changan Nurly Zhol</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h5>Regions</h5>
+          <ul>
+            <li><a href="/static/autocenters/loghyundaiqaragandy.html">Hyundai Qaragandy</a></li>
+            <li><a href="/static/autocenters/loghyundaishymcity.html">Hyundai ShymCity</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Financial Services и DriveHub MC -->
+    <div class="financial-drivehub">
+      <div class="footer-column">
+        <h3>Financial Services</h3>
+        <ul>
+          <li><a href="logfinancialservices.html#leasing">Leasing</a></li>
+          <li><a href="logfinancialservices.html#opleasing">Operational Leasing</a></li>
+          <li><a href="logfinancialservices.html#loans">Loans</a></li>
+          <li><a href="logfinancialservices.html#insurance">Insurance</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>DriveHub MC</h3>
+        <ul>
+          <li>Astana, Mangilik El Avenue, C1</li>
+          <li>+7 777 123 4567</li>
+          <li>office@drivehub.com</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    &copy; 2025 DriveHub. All rights reserved.
+  </div>
+</footer>
+<script>
+document.getElementById("filter-btn").addEventListener("click", function () {
+            let selectedCity = document.getElementById("city").value;
+            let selectedBrand = document.getElementById("brand").value;
+            let selectedFuel = document.getElementById("fuel").value;
+            let minPrice = parseInt(document.getElementById("min-price").value) || 0;
+            let maxPrice = parseInt(document.getElementById("max-price").value) || 100000000;
+            let minMileage = parseInt(document.getElementById("min-mileage").value) || 0;
+            let maxMileage = parseInt(document.getElementById("max-mileage").value) || 2000000;
+            let minYear = parseInt(document.getElementById("min-year").value) || 1900;
+            let maxYear = parseInt(document.getElementById("max-year").value) || 2025;
+
+            let cars = document.querySelectorAll(".car-card");
+
+            cars.forEach(car => {
+                let carCity = car.getAttribute("data-city");
+                let carBrand = car.getAttribute("data-brand");
+                let carFuel = car.getAttribute("data-fuel");
+                let carPrice = parseInt(car.getAttribute("data-price"));
+                let carMileage = parseInt(car.getAttribute("data-mileage"));
+                let carYear = parseInt(car.getAttribute("data-year"));
+
+                let cityMatch = selectedCity === "all" || carCity === selectedCity;
+                let brandMatch = selectedBrand === "all" || carBrand === selectedBrand;
+                let fuelMatch = selectedFuel === "all" || carFuel === selectedFuel;
+                let priceMatch = carPrice >= minPrice && carPrice <= maxPrice;
+                let mileageMatch = carMileage >= minMileage && carMileage <= maxMileage;
+                let yearMatch = carYear >= minYear && carYear <= maxYear;
+
+                car.classList.toggle("hidden", !(cityMatch && brandMatch && fuelMatch && priceMatch && mileageMatch && yearMatch));
+            });
+        });
+
+</script>
+</body>
+</html>
