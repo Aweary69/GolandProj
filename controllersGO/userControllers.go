@@ -1,20 +1,25 @@
 package controllersGO
 
 import (
+	"bufio"
 	"context"
 	"errors"
 	"fmt"
-	"github.com/golang-jwt/jwt/v5"
-	"golang.org/x/crypto/bcrypt"
+	"math/rand"
 	"net/http"
 	"os"
+	"strings"
 	"time"
+
+	"github.com/golang-jwt/jwt/v5"
+	"golang.org/x/crypto/bcrypt"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 
 	"CarStore/models"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -22,6 +27,13 @@ var userCollection *mongo.Collection
 
 func SetUserCollection(collection *mongo.Collection) {
 	userCollection = collection
+}
+
+// Reference to applications collection
+var applicationCollection *mongo.Collection
+
+func SetApplicationCollection(collection *mongo.Collection) {
+	applicationCollection = collection
 }
 
 // ✅ Hash password securely using bcrypt
@@ -136,35 +148,6 @@ func LoginUser(c *gin.Context) {
 	})
 }
 
-/*func CreateUser(c *gin.Context) {
-	var user models.User
-	if err := c.ShouldBindJSON(&user); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
-		return
-	}
-
-	// Check if email already exists
-	var existingUser models.User
-	err := userCollection.FindOne(context.TODO(), bson.M{"email": user.Email}).Decode(&existingUser)
-	if err == nil {
-		c.JSON(http.StatusConflict, gin.H{"error": "Email already registered"})
-		return
-	}
-
-	// Hash password and create user
-	user.Password = hashPassword(user.Password)
-	user.ID = primitive.NewObjectID()
-	user.CreatedAt = time.Now()
-
-	_, err = userCollection.InsertOne(context.TODO(), user)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Could not register user"})
-		return
-	}
-
-	c.JSON(http.StatusCreated, gin.H{"message": "User registered successfully"})
-}*/
-
 // 🔹 Get All Users
 func GetAllUsers(c *gin.Context) {
 	cursor, err := userCollection.Find(context.TODO(), bson.M{})
@@ -207,44 +190,6 @@ func GetUserByID(c *gin.Context) {
 	user.Password = "" // Hide password
 	c.JSON(http.StatusOK, user)
 }
-
-// 🔹 Update User by ID
-/*func UpdateUserByID(c *gin.Context) {
-	id := c.Param("id")
-	objID, err := primitive.ObjectIDFromHex(id)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
-		return
-	}
-
-	var updatedData models.User
-	if err := c.ShouldBindJSON(&updatedData); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
-		return
-	}
-
-	// Hash new password if provided
-	if updatedData.Password != "" {
-		updatedData.Password = hashPassword(updatedData.Password)
-	}
-
-	update := bson.M{
-		"$set": bson.M{
-			"name":       updatedData.Name,
-			"email":      updatedData.Email,
-			"password":   updatedData.Password,
-			"created_at": time.Now(),
-		},
-	}
-
-	result, err := userCollection.UpdateOne(context.TODO(), bson.M{"_id": objID}, update)
-	if err != nil || result.ModifiedCount == 0 {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Could not update user"})
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{"message": "User updated successfully"})
-}*/
 
 // 🔹 Delete User by ID
 func DeleteUserByID(c *gin.Context) {
@@ -506,4 +451,193 @@ func ChangePassword(c *gin.Context) {
 
 	fmt.Println("✅ Password changed successfully for user:", userID) // Debugging
 	c.JSON(http.StatusOK, gin.H{"message": "Password changed successfully"})
+}
+
+// HandleApplication processes car purchase applications
+func HandleApplication(c *gin.Context) {
+	userID, exists := c.Get("userID") // ✅ Get authenticated user's ID
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
+		return
+	}
+
+	var app models.Application
+
+	// Parse request JSON
+	if err := c.ShouldBindJSON(&app); err != nil {
+		fmt.Println("JSON Binding Error:", err)
+		c.JSON(400, gin.H{"error": "Invalid request data", "details": err.Error()})
+		return
+	}
+
+	// Set application metadata
+	app.ID = primitive.NewObjectID()
+	app.UserID, _ = primitive.ObjectIDFromHex(userID.(string)) // ✅ Assign user ID
+	app.CreatedAt = time.Now()
+	app.Status = "Pending"
+	app.Meeting = nil
+
+	// Insert into database
+	_, err := applicationCollection.InsertOne(context.TODO(), app)
+	if err != nil {
+		c.JSON(500, gin.H{"error": "Failed to submit application"})
+		return
+	}
+
+	// Log application in terminal
+	fmt.Printf("\n📩 Application received from %s\n", app.FullName)
+	fmt.Println("⚡ Will you accept or decline? (Type 'Accept' or 'Decline'): ")
+
+	// Read admin response from terminal
+	reader := bufio.NewReader(os.Stdin)
+	response, _ := reader.ReadString('\n')
+	response = strings.TrimSpace(response) // ✅ Trim spaces and newlines
+	response = strings.ToLower(response)   // ✅ Convert to lowercase for consistency
+
+	if response == "accept" {
+		// Generate random meeting date within the next 3 months (between 11:00 - 20:00)
+		randomDays := rand.Intn(90) // Within 3 months
+		meetingDate := time.Now().AddDate(0, 0, randomDays)
+
+		// Set random time between 11:00 - 20:00
+		randomHour := 11 + rand.Intn(10)
+		meetingDate = time.Date(meetingDate.Year(), meetingDate.Month(), meetingDate.Day(), randomHour, 0, 0, 0, meetingDate.Location())
+
+		// Update application with meeting date
+		_, err := applicationCollection.UpdateOne(
+			context.TODO(),
+			bson.M{"_id": app.ID},
+			bson.M{"$set": bson.M{"status": "Accepted", "meeting": meetingDate}},
+		)
+		if err != nil {
+			fmt.Println("❌ Error updating application with meeting date:", err)
+			c.JSON(500, gin.H{"error": "Failed to schedule meeting"})
+			return
+		}
+
+		fmt.Printf("✅ Application Accepted! 📅 Meeting scheduled on %s\n", meetingDate.Format("2006-01-02 15:04"))
+
+	} else {
+		// Update application status as declined
+		_, err := applicationCollection.UpdateOne(
+			context.TODO(),
+			bson.M{"_id": app.ID},
+			bson.M{"$set": bson.M{"status": "Declined"}},
+		)
+		if err != nil {
+			fmt.Println("❌ Error updating application status:", err)
+			c.JSON(500, gin.H{"error": "Failed to decline application"})
+			return
+		}
+
+		fmt.Println("❌ Application Declined")
+	}
+
+	// Send response
+	c.JSON(200, gin.H{"message": "Application processed successfully"})
+}
+
+func GetApplicationStatus(c *gin.Context) {
+	// ✅ Get user ID from authentication middleware
+	userID, exists := c.Get("userID")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
+		return
+	}
+
+	// ✅ Convert userID to ObjectID
+	objID, err := primitive.ObjectIDFromHex(userID.(string))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
+		return
+	}
+
+	// 🔹 Debugging: Print userID being searched
+	fmt.Println("🔎 Searching for application with userID:", objID.Hex())
+
+	// ✅ Fix: Use a **string comparison** if the field is stored as a string
+	filter := bson.M{"user_id": userID.(string)} // Try searching with string userID
+
+	// ✅ Search for the application
+	var app models.Application
+	err = applicationCollection.FindOne(context.TODO(), filter).Decode(&app)
+
+	// 🔹 If the first search fails, try using ObjectID format
+	if err != nil {
+		filter = bson.M{"user_id": objID} // Try searching with ObjectID format
+		err = applicationCollection.FindOne(context.TODO(), filter).Decode(&app)
+	}
+
+	// ✅ Handle case where no application is found
+	if err != nil {
+		fmt.Println("❌ No application found for user:", objID.Hex()) // Debugging
+		c.JSON(http.StatusNotFound, gin.H{"error": "No active application found"})
+		return
+	}
+
+	// ✅ Return application status
+	c.JSON(http.StatusOK, gin.H{
+		"status":  app.Status,
+		"meeting": app.Meeting,
+		"appId":   app.ID.Hex(),
+	})
+}
+
+func GetUserApplicationStatus(c *gin.Context) {
+	userID, exists := c.Get("userID")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
+		return
+	}
+
+	objID, err := primitive.ObjectIDFromHex(userID.(string))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
+		return
+	}
+
+	var app models.Application
+	err = applicationCollection.FindOne(context.TODO(), bson.M{"user_id": objID}).Decode(&app)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "No application found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"fullName":  app.FullName,
+		"email":     app.Email,
+		"carModels": app.CarModels,
+		"status":    app.Status,
+		"meeting":   app.Meeting,
+	})
+}
+
+func DeleteApplication(c *gin.Context) {
+	userID, exists := c.Get("userID") // ✅ Get user ID from middleware
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
+		return
+	}
+
+	// ✅ Convert userID to ObjectID
+	userObjID, err := primitive.ObjectIDFromHex(userID.(string))
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid user ID format"})
+		return
+	}
+
+	// ✅ Find and delete application based on user ID
+	filter := bson.M{"user_id": userObjID}
+	result, err := applicationCollection.DeleteOne(context.TODO(), filter)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete application"})
+		return
+	}
+
+	if result.DeletedCount == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "No application found to delete"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Application deleted successfully"})
 }

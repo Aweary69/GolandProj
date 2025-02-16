@@ -9,6 +9,7 @@ import (
 
 	"CarStore/controllersGO"
 	"CarStore/routesGo"
+
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -58,6 +59,7 @@ func main() {
 
 	// Устанавливаем коллекцию пользователей
 	controllersGO.SetUserCollection(client.Database("carstore").Collection("users"))
+	controllersGO.SetApplicationCollection(client.Database("carstore").Collection("applications"))
 
 	// Создаем сервер
 	router := gin.Default()

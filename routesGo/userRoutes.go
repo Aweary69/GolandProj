@@ -3,6 +3,7 @@ package routesGo
 import (
 	"CarStore/controllersGO" // Контроллеры
 	"CarStore/middleware"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -21,6 +22,10 @@ func RegisterRoutes(router *gin.Engine) {
 		userRoutes.POST("/verify-reset-code", controllersGO.VerifyResetCode)
 		userRoutes.POST("/reset-password", controllersGO.ResetPassword)
 		userRoutes.POST("/change-password", middleware.AuthMiddleware(), controllersGO.ChangePassword)
+		userRoutes.POST("/apply", middleware.AuthMiddleware(), controllersGO.HandleApplication)
+		userRoutes.GET("/application-status", middleware.AuthMiddleware(), controllersGO.GetApplicationStatus)
+		userRoutes.GET("/my-application", middleware.AuthMiddleware(), controllersGO.GetUserApplicationStatus)
+		userRoutes.DELETE("/delete-application", middleware.AuthMiddleware(), controllersGO.DeleteApplication)
 
 	}
 	// Регистрация и логин
